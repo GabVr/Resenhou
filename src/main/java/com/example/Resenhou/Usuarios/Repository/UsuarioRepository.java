@@ -19,7 +19,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     List<Usuario> findByNomeContainingIgnoreCase(String nome);
     boolean existsByNomeContainingIgnoreCase(String nome);
-    List<Usuario> findByUsuarioContainingIgnoreCase(String nome);
+    List<Usuario> findByUsuarioContainingIgnoreCase(String username);
 
     @Override
     boolean existsById(Integer id);
