@@ -39,7 +39,7 @@ public class LivroService {
     }
 
     public List<Livro> encontrarLivroPorAutor(String autor){
-        return livroRepository.findByAutorContainingIgnoreCase(autor);
+        return livroRepository.findByAutoresContainingIgnoreCase(autor);
     }
 
     public List<Livro> encontrarLivroPorEditora(String editora){
@@ -49,7 +49,7 @@ public class LivroService {
     public Livro atualizarLivroPorId(Integer id, Livro dadosLivro){
         Livro livroAtualizado = encontrarTodosLivrosPorId(id);
         livroAtualizado.setTitulo(dadosLivro.getTitulo());
-        livroAtualizado.setGenero(dadosLivro.getGenero());
+        livroAtualizado.setGeneros(dadosLivro.getGeneros());
         livroAtualizado.setDataPublicacao(dadosLivro.getDataPublicacao());
         livroAtualizado.setAutores(dadosLivro.getAutores());
         livroAtualizado.setEditora(dadosLivro.getEditora());

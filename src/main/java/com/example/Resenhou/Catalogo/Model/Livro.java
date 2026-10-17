@@ -54,7 +54,7 @@ public class Livro {
             joinColumns = @JoinColumn(name = "livro_id"),
             inverseJoinColumns = @JoinColumn(name = "genero_id")
     )
-    private Set<Genero> genero = new HashSet<>();;
+    private Set<Genero> generos = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
