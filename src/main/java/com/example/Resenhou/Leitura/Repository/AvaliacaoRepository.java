@@ -22,8 +22,8 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
 
    List<Avaliacao> findByNota(int nota);
 
-   List<Avaliacao> findByUsuario(Usuario usuario);
-   List<Avaliacao> findByLivro(Livro livro);
+   List<Avaliacao> findByUsuarioId(Usuario usuario);
+   List<Avaliacao> findByLivroId(Livro livro);
 
    Avaliacao deleteById(int integer);
 }

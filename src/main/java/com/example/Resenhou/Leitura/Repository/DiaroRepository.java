@@ -23,6 +23,6 @@ public interface DiaroRepository extends JpaRepository<Diario, Integer> {
 
     Diario deleteById(int id);
 
-    List<Diario> findByUsuario(Usuario usuario);
-    List<Diario> findByLivro(Livro livro);
+    List<Diario> findByUsuarioId(Usuario usuario);
+    List<Diario> findByLivroId(Livro livro);
 }
