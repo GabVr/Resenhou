@@ -30,7 +30,7 @@ public class LivroService {
         return livroRepository.findAll();
     }
 
-    public Livro encontrarTodosLivrosPorId(Integer id){
+    public Livro encontrarLivroPorId(Integer id){
         return livroRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Não foi possível encontrar o livro por ID"));
     }
 
@@ -47,7 +47,7 @@ public class LivroService {
     }
 
     public Livro atualizarLivroPorId(Integer id, Livro dadosLivro){
-        Livro livroAtualizado = encontrarTodosLivrosPorId(id);
+        Livro livroAtualizado = encontrarLivroPorId(id);
         livroAtualizado.setTitulo(dadosLivro.getTitulo());
         livroAtualizado.setGeneros(dadosLivro.getGeneros());
         livroAtualizado.setDataPublicacao(dadosLivro.getDataPublicacao());
@@ -57,7 +57,7 @@ public class LivroService {
     }
 
     public Livro deletarLivroPorId(int id){
-        encontrarTodosLivrosPorId(id);
+        encontrarLivroPorId(id);
         return livroRepository.deleteById(id);
     }
 }
