@@ -1,6 +1,5 @@
 package com.example.Resenhou.Usuarios.Controller;
 
-import com.example.Resenhou.Catalogo.Model.Autor;
 import com.example.Resenhou.Usuarios.Model.Usuario;
 import com.example.Resenhou.Usuarios.Service.UsuarioService;
 import jakarta.validation.Valid;
