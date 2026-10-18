@@ -48,8 +48,8 @@ public class UsuarioService {
         return salvarUsuario(usuarioAtualizado);
     }
 
-    public Usuario deletarUsuarioPorId(int idUsuario){
+    public void deletarUsuarioPorId(int idUsuario){
         encontrarUsuarioId(idUsuario);
-        return usuarioRepository.deleteById(idUsuario);
+        usuarioRepository.deleteById(idUsuario);
     }
 }
