@@ -50,8 +50,8 @@ public class AutorService {
         return salvarAutor(autorAtualizado);
     }
 
-    public Autor deletarAutorPorId(int id) {
+    public void deletarAutorPorId(int id) {
         encontrarAutorPorId(id);
-        return autorRepository.deleteById(id);
+        autorRepository.deleteById(id);
     }
 }
