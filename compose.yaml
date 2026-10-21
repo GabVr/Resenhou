@@ -1,10 +1,84 @@
 services:
   mysql:
-    image: 'mysql:latest'
+    image:  mysql:latest
+    container_name: resenhou_db
+    restart: unless-stopped
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - '3306'
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  catalogo:
+      build:
+        context: ./catalogo
+        dockerfile: Dockerfile
+      container_name: catalogo-app
+      restart: unless-stopped
+      environment:
+        MYSQL_HOST: ${MYSQL_HOST}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+      ports:
+        - "8081:8080"
+      depends_on:
+        mysql:
+          condition: service_healthy
+
+
+  leitura:
+      build:
+        context: ./leitura
+        dockerfile: Dockerfile
+      container_name: leitura-app
+      restart: unless-stopped
+      environment:
+        MYSQL_HOST: ${MYSQL_HOST}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+      ports:
+        - "8082:8080"
+      depends_on:
+        mysql:
+          condition: service_healthy
+
+  usuarios:
+    build:
+     context: ./usuarios
+     dockerfile: Dockerfile
+    container_name: usuario-app
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8083:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    env_file:
+      - .env
+
+volumes:
+  db_data:
+
+

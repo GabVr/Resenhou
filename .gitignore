@@ -14,6 +14,11 @@ bin/
 .springBeans
 .sts4-cache
 
+###.env###
+
+.env
+.env.properties
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
