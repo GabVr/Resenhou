@@ -33,16 +33,34 @@ const bookGrid = (list) =>
 
 function home() {
   return `
-<section class="hero"><div class="container-fluid hero-inner"><div class="hero-copy"><span class="eyebrow">SUA VIDA ENTRE LIVROS</span><h1>Histórias que ficam.<br><em>Leituras que transformam.</em></h1><p>Descubra novos livros, acompanhe suas leituras e compartilhe o que cada história despertou em você.</p><div class="d-flex flex-wrap gap-2 mt-4"><a class="btn btn-moss" href="#catalogo">Explorar catálogo</a><a class="btn btn-outline-moss" href="#diario">Meu diário de leitura</a></div></div><div class="hero-art d-none d-md-block"><div class="hero-sun"></div><div class="hero-cover one">${cover(books[1])}</div><div class="hero-cover two">${cover(books[0])}</div><div class="hero-cover three">${cover(books[3])}</div><div class="quote-card"><span>“</span><p>Um leitor vive mil vidas antes de morrer.</p><small>George R. R. Martin</small></div></div></div></section>
+<section class="hero">
+    <div class="container-fluid hero-inner">
+        <div class="hero-copy">
+            <span class="eyebrow">SUA VIDA ENTRE LIVROS</span>
+            <h1>Histórias que ficam.<br><em>Leituras que transformam.</em></h1>
+            <p>Descubra novos livros, acompanhe suas leituras e compartilhe o que cada história despertou em você.</p>
+            <div class="d-flex flex-wrap gap-2 mt-4"><a class="btn btn-moss" href="#catalogo">Explorar catálogo</a>
+            <a class="btn btn-outline-moss" href="#diario">Meu diário de leitura</a>
+        </div>
+    </div>
+    <div class="hero-art d-none d-md-block">
+        <div class="hero-sun"></div>
+            <div class="hero-cover one">${cover(books[1])}</div>
+            <div class="hero-cover two">${cover(books[0])}</div>
+            <div class="hero-cover three">${cover(books[3])}</div>
+            <div class="quote-card"><span>“</span>
+                <p>Um leitor vive mil vidas antes de morrer.</p>
+                <small>George R. R. Martin</small>
+            </div>
+        </div>
+    </div>
+</section>
 <section class="content-section container">${sectionTitle("PARA DESCOBRIR", "Livros em destaque", "catalogo", "Ver catálogo")}${bookGrid(books.slice(0, 5))}</section>
 <section class="reading-section"><div class="container">${sectionTitle("NA SUA ESTANTE", "Lendo agora", "diario", "Abrir diário")}<div class="reading-card row align-items-center g-4"><div class="col-auto">${cover(books[5], "small")}</div><div class="col reading-info"><span>EM ANDAMENTO</span><h3>Pachinko</h3><p>Min Jin Lee</p><div class="progress-label"><span>Página 316 de 528</span><strong>60%</strong></div><div class="progress"><div class="progress-bar" style="width:60%"></div></div><small>Você começou em 12 de março</small></div><div class="col-12 col-lg-auto"><a class="btn btn-outline-moss" href="#diario">Atualizar progresso</a></div></div></div></section>
 <section class="content-section container">${sectionTitle("PARA FICAR POR DENTRO", "Últimas notícias literárias", "noticias", "Ver todas")}<div class="row g-4">${news.map(newsCard).join("")}</div></section>`;
 }
 function newsCard(n) {
   return `<div class="col-md-4"><article class="news-card"><img src="${n.image}" alt="Livros e leitura"><div><span>${n.tag}</span><h3>${n.title}</h3><p>${n.summary}</p><small>${n.source} · 5 min de leitura</small></div></article></div>`;
-}
-function catalog() {
-  return `<section class="page container"><div class="page-heading"><span class="eyebrow">NOSSA CURADORIA</span><h1>Explore o catálogo</h1><p>Encontre a sua próxima leitura entre histórias de todos os lugares.</p></div><form id="catalogFilters" class="row g-2 py-4 border-bottom"><div class="col-md-7"><input id="catalogSearch" class="form-control" placeholder="Busque por título ou autor"></div><div class="col-md-3"><select id="catalogGenre" class="form-select"><option value="">Todos os gêneros</option>${[...new Set(books.map((b) => b.genre))].map((g) => `<option>${g}</option>`).join("")}</select></div><div class="col-md-2"><button class="btn btn-moss w-100">Buscar</button></div></form><div class="result-line"><strong id="resultCount">${books.length} livros encontrados</strong></div><div id="catalogResults" class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">${books.map(bookCard).join("")}</div></section>`;
 }
 function diary() {
   return `<section class="page container"><div class="page-heading heading-row"><div><span class="eyebrow">MINHA JORNADA</span><h1>Diário de leitura</h1><p>Acompanhe cada página e guarde as memórias das suas leituras.</p></div><button class="btn btn-moss" data-bs-toggle="modal" data-bs-target="#loginModal">＋ Adicionar leitura</button></div><div class="stat-row row g-0"><div class="col-6 col-md-3"><strong>2</strong><span>Lendo agora</span></div><div class="col-6 col-md-3"><strong>14</strong><span>Livros concluídos</span></div><div class="col-6 col-md-3"><strong>4.120</strong><span>Páginas este ano</span></div><div class="col-6 col-md-3"><strong>8</strong><span>Dias em sequência</span></div></div><div class="tabs"><button class="active">Lendo agora <span>2</span></button><button>Concluídos <span>14</span></button><button>Abandonados <span>1</span></button></div><div class="diary-list">${diaryCard(books[5], 316, 528, 60)}${diaryCard(books[2], 71, 210, 34)}</div></section>`;
@@ -56,20 +74,10 @@ function lists() {
     "Para ler em dias de chuva",
     "Presentes para pessoas queridas",
   ];
-  return `<section class="page container"><div class="page-heading heading-row"><div><span class="eyebrow">MINHAS CURADORIAS</span><h1>Listas personalizadas</h1><p>Organize livros por temas, momentos e tudo o que fizer sentido para você.</p></div><button class="btn btn-moss" data-bs-toggle="modal" data-bs-target="#loginModal">＋ Criar nova lista</button></div><div class="row g-4 mt-2">${names.map((n, i) => `<div class="col-md-6"><article class="list-card"><div class="cover-stack">${cover(books[i])}${cover(books[i + 1])}${cover(books[i + 2])}</div><div class="list-copy"><div><span>${i === 2 ? "🔒 PRIVADA" : "◎ PÚBLICA"}</span><h2>${n}</h2><p>Histórias que ficaram comigo muito depois da última página.</p></div><strong>${[8, 12, 6][i]} livros →</strong></div></article></div>`).join("")}</div></section>`;
-}
-function wishlist() {
-  return `<section class="page container"><div class="page-heading"><span class="eyebrow">PRÓXIMAS LEITURAS</span><h1>Quero ler</h1><p>Todos os livros que você guardou para o momento certo.</p></div><div class="result-line"><strong id="wishlistCount">6 livros na sua estante</strong></div><div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">${books
-    .slice(2)
-    .map(
-      (b) =>
-        `<div class="col wishlist-col"><article class="book-card wishlist-item" data-book-id="${b.id}"><div class="cover-wrap">${cover(b)}</div><h3>${b.title}</h3><p>${b.author}</p><small>Adicionado em 18 mar. 2025</small><button class="remove-wishlist">Remover</button></article></div>`,
-    )
-    .join("")}</div></section>`;
+
 }
 function profile() {
-  return `<section><div class="profile-hero"><div class="container profile-inner"><div class="avatar avatar-large">MC</div><div><span class="eyebrow">LEITORA DESDE 2022</span><h1>Marina Costa</h1><strong>@marinacosta</strong><p>Leitora de ficção brasileira, café sem açúcar e finais que deixam um pouco de saudade.</p></div><button class="btn btn-outline-moss" data-bs-toggle="modal" data-bs-target="#loginModal">Editar perfil</button></div></div><div class="page container"><div class="profile-stats row g-0"><div class="col-6 col-md-3"><strong>87</strong><span>Livros lidos</span></div><div class="col-6 col-md-3"><strong>24</strong><span>Avaliações</span></div><div class="col-6 col-md-3"><strong>6</strong><span>Listas</span></div><div class="col-6 col-md-3"><strong>19</strong><span>Quero ler</span></div></div><div class="tabs mt-4"><button class="active">Atividade recente</button><a href="#listas">Listas</a><button>Avaliações</button></div><div class="row g-4"><div class="col-lg-8"><div class="activity-card"><div class="avatar avatar-tiny">MC</div><div><p><strong>Marina concluiu uma leitura</strong><small>há 2 dias</small></p><h3>O Avesso da Pele</h3><p>★★★★★</p><blockquote>“Uma narrativa que atravessa a pele e permanece. Daqueles livros que mudam a forma como olhamos para o outro.”</blockquote></div></div></div><aside class="col-lg-4"><div class="profile-aside"><h3>Gêneros mais lidos</h3><p>Literatura brasileira</p><div class="genre-bar"><span style="width:92%"></span></div><p>Ficção contemporânea</p><div class="genre-bar"><span style="width:78%"></span></div><p>Romance</p><div class="genre-bar"><span style="width:64%"></span></div></div></aside></div></div></section>`;
-}
+  }
 function render() {
   let route = location.hash.replace("#", "") || "inicio";
   const pages = {
