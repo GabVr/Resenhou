@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DiaroRepository extends JpaRepository<Diario, Integer> {
+public interface DiarioRepository extends JpaRepository<Diario, Integer> {
 
     @Override
     Optional<Diario> findById(Integer id);
