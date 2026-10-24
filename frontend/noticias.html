@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resenhou — Notícias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+<header class="topbar sticky-top">
+  <div class="container-fluid d-flex align-items-center gap-4 px-lg-5 px-3">
+    <a class="brand text-decoration-none" href="index.html"><span class="brand-mark">▤</span><span>Resenhou<br><em>plataforma de livros</em></span></a>
+    <nav class="main-nav d-none d-lg-flex">
+      <a href="catalogo.html">Catálogo</a><a href="listas.html">Listas</a><a href="noticias.html">Notícias</a>
+    </nav>
+    <form class="global-search ms-auto" id="globalSearch"><span>⌕</span><input id="globalSearchInput" placeholder="Buscar livros, autores..." aria-label="Buscar livros e autores"></form>
+    <a class="avatar avatar-small text-decoration-none" href="perfil.html" aria-label="Abrir perfil">MC</a>
+  </div>
+</header>
+
+<main>
+  <section class="page container">
+    <div class="page-heading">
+      <span class="eyebrow">PARA FICAR POR DENTRO</span>
+      <h1>Notícias literárias</h1>
+      <p>Conversas, lançamentos e ideias que movimentam o mundo dos livros.</p>
+    </div>
+
+    <div id="noticiasGrid" class="row g-4 mt-2"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="container d-flex flex-wrap align-items-center gap-3">
+    <div class="brand footer-brand"><span class="brand-mark">▤</span><span>Resenhou</span></div>
+    <p>Um lugar para guardar tudo o que a leitura desperta.</p>
+    <span>© 2026 Resenhou</span>
+  </div>
+</footer>
+
+<nav class="quick-nav" aria-label="Atalhos">
+  <a href="diario.html">▤ Diário</a>
+  <a href="quero-ler.html">▣ Quero ler</a>
+  <button data-bs-toggle="modal" data-bs-target="#loginModal">♙ Entrar</button>
+</nav>
+
+<!-- Janela de login / cadastro -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body text-center px-4 px-md-5 pb-5">
+        <span class="brand-mark login-mark">▤</span>
+        <span class="eyebrow">BEM-VINDO AO RESENHOU</span>
+        <h2>Entre na sua estante</h2>
+        <p>Suas próximas histórias estão esperando.</p>
+        <form id="loginForm">
+          <label class="form-label w-100 text-start">E-mail
+            <input class="form-control mt-2" type="email" placeholder="voce@email.com" required>
+          </label>
+          <label class="form-label w-100 text-start">Senha
+            <input class="form-control mt-2" type="password" placeholder="Sua senha" required>
+          </label>
+          <button type="submit" class="btn btn-moss w-100 mt-2">Entrar</button>
+        </form>
+        <button class="login-switch">Ainda não tem uma conta? Cadastre-se</button>
+        <p class="demo-note mt-3">Demonstração visual: os dados não são enviados.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/dados.js"></script>
+<script src="js/comum.js"></script>
+<script src="js/noticias.js"></script>
+</body>
+</html>
