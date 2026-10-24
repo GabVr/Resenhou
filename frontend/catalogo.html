@@ -32,9 +32,10 @@
       <div class="col-md-7"><input id="catalogSearch" class="form-control" placeholder="Busque por título ou autor">
       </div>
 
-      <div class="col-md-3"><select id="catalogGenre" class="form-select">
-        <option value="">Todos os gêneros</option>
-        <option></option>
+      <div class="col-md-3">
+        <select id="catalogGenre" class="form-select">
+          <option value="">Todos os gêneros</option>
+        </select>
       </div>
 
       <div class="col-md-2">
@@ -42,7 +43,7 @@
 
       </div>
     </form>
-    <div class="result-line"><strong id="resultCount">${books.length} livros encontrados</strong></div>
+    <div class="result-line"><strong id="resultCount"></strong></div>
     <div id="catalogResults" class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
     </div>
   </section>

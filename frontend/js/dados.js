@@ -65,9 +65,15 @@ function bookCard(livro) {
   </div>`;
 }
 
-/* Cartão de notícia. */
-function newsCard(noticia) {
-  return `<div class="col-md-4">
+/*
+ * Cartão de notícia.
+ * "classeColuna" define a largura: "col-md-4" (3 por linha, padrão) ou
+ * "col-md-6" (2 por linha).
+ * CUIDADO: não use "news.map(newsCard)" direto, porque o map entrega o índice
+ * como segundo argumento. Use: news.map((n) => newsCard(n)).
+ */
+function newsCard(noticia, classeColuna = "col-md-4") {
+  return `<div class="${classeColuna}">
     <article class="news-card">
       <img src="${esc(noticia.image)}" alt="Livros e leitura">
       <div>

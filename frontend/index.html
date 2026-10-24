@@ -18,21 +18,129 @@
       <a href="catalogo.html">Catálogo</a><a href="listas.html">Listas</a><a href="noticias.html">Notícias</a>
     </nav>
     <form class="global-search ms-auto" id="globalSearch"><span>⌕</span><input id="globalSearchInput" placeholder="Buscar livros, autores..." aria-label="Buscar livros e autores"></form>
-    <a class="avatar avatar-small text-decoration-none" href="#perfil" aria-label="Abrir perfil">MC</a>
+    <a class="avatar avatar-small text-decoration-none" href="perfil.html" aria-label="Abrir perfil">MC</a>
   </div>
 </header>
 
 <main>
 
+  <!-- Destaque principal -->
+  <section class="hero">
+    <div class="container-fluid hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">SUA VIDA ENTRE LIVROS</span>
+        <h1>Histórias que ficam.<br><em>Leituras que transformam.</em></h1>
+        <p>Descubra novos livros, acompanhe suas leituras e compartilhe o que cada história despertou em você.</p>
+        <div class="d-flex flex-wrap gap-2 mt-4">
+          <a class="btn btn-moss" href="catalogo.html">Explorar catálogo</a>
+          <a class="btn btn-outline-moss" href="diario.html">Meu diário de leitura</a>
+        </div>
+      </div>
+
+      <div class="hero-art d-none d-md-block">
+        <div class="hero-sun"></div>
+        <!-- data-capa="N": o index.js desenha a capa do livro de id N -->
+        <div class="hero-cover one" data-capa="2"></div>
+        <div class="hero-cover two" data-capa="1"></div>
+        <div class="hero-cover three" data-capa="4"></div>
+        <div class="quote-card">
+          <span>“</span>
+          <p>Um leitor vive mil vidas antes de morrer.</p>
+          <small>George R. R. Martin</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Livros em destaque -->
+  <section class="content-section container">
+    <div class="section-title">
+      <div><span class="eyebrow">PARA DESCOBRIR</span><h2>Livros em destaque</h2></div>
+      <a href="catalogo.html">Ver catálogo →</a>
+    </div>
+    <div id="destaques" class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4"></div>
+  </section>
+
+  <!-- Lendo agora -->
+  <section class="reading-section">
+    <div class="container">
+      <div class="section-title">
+        <div><span class="eyebrow">NA SUA ESTANTE</span><h2>Lendo agora</h2></div>
+        <a href="diario.html">Abrir diário →</a>
+      </div>
+      <div class="reading-card row align-items-center g-4">
+        <div class="col-auto" data-capa="6" data-tamanho="small"></div>
+        <div class="col reading-info">
+          <span>EM ANDAMENTO</span>
+          <h3>Pachinko</h3>
+          <p>Min Jin Lee</p>
+          <div class="progress-label"><span>Página 316 de 528</span><strong>60%</strong></div>
+          <div class="progress"><div class="progress-bar" style="width:60%"></div></div>
+          <small>Você começou em 12 de março</small>
+        </div>
+        <div class="col-12 col-lg-auto">
+          <a class="btn btn-outline-moss" href="diario.html">Atualizar progresso</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Últimas notícias -->
+  <section class="content-section container">
+    <div class="section-title">
+      <div><span class="eyebrow">PARA FICAR POR DENTRO</span><h2>Últimas notícias literárias</h2></div>
+      <a href="noticias.html">Ver todas →</a>
+    </div>
+    <div id="noticiasHome" class="row g-4"></div>
+  </section>
+
 </main>
 
-<footer><div class="container d-flex flex-wrap align-items-center gap-3"><div class="brand footer-brand"><span class="brand-mark">▤</span><span>Resenhou</span></div><p>Um lugar para guardar tudo o que a leitura desperta.</p><span>© 2026 Resenhou</span></div></footer>
-<nav class="quick-nav" aria-label="Atalhos"><a href="diario.html">▤ Diário</a><a href="quero-ler.html">▣ Quero ler</a><button data-bs-toggle="modal" data-bs-target="#loginModal">♙ Entrar</button></nav>
+<footer>
+  <div class="container d-flex flex-wrap align-items-center gap-3">
+    <div class="brand footer-brand"><span class="brand-mark">▤</span><span>Resenhou</span></div>
+    <p>Um lugar para guardar tudo o que a leitura desperta.</p>
+    <span>© 2026 Resenhou</span>
+  </div>
+</footer>
 
-<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content custom-modal"><div class="modal-header border-0"><button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button></div><div class="modal-body text-center px-4 px-md-5 pb-5"><span class="brand-mark login-mark">▤</span><span class="eyebrow">BEM-VINDO AO RESENHOU</span><h2>Entre na sua estante</h2><p>Suas próximas histórias estão esperando.</p><form id="loginForm"><label class="form-label w-100 text-start">E-mail<input class="form-control mt-2" type="email" placeholder="voce@email.com" required></label><label class="form-label w-100 text-start">Senha<input class="form-control mt-2" type="password" placeholder="Sua senha" required></label><button type="submit" class="btn btn-moss w-100 mt-2">Entrar</button></form><button class="login-switch">Ainda não tem uma conta? Cadastre-se</button><p class="demo-note mt-3">Demonstração visual: os dados não são enviados.</p></div></div></div></div>
+<nav class="quick-nav" aria-label="Atalhos">
+  <a href="diario.html">▤ Diário</a>
+  <a href="quero-ler.html">▣ Quero ler</a>
+  <button data-bs-toggle="modal" data-bs-target="#loginModal">♙ Entrar</button>
+</nav>
 
-<div class="modal fade" id="ratingModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content custom-modal"><div class="modal-header border-0"><button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button></div><div class="modal-body px-4 px-md-5 pb-5"><span class="eyebrow">SUA EXPERIÊNCIA</span><h2>Avaliar leitura</h2><label class="form-label">Sua nota<div class="rating-stars my-2"><button type="button">★</button><button type="button">★</button><button type="button">★</button><button type="button">★</button><button type="button">★</button></div></label><label class="form-label w-100">Escreva uma resenha<textarea class="form-control mt-2" rows="4" placeholder="Conte como foi a sua experiência com este livro..."></textarea></label><label class="form-check mt-3"><input class="form-check-input" type="checkbox"><span class="form-check-label">Esta resenha pode aparecer no meu perfil</span></label><button class="btn btn-moss w-100 mt-3" data-bs-dismiss="modal">Publicar avaliação</button><p class="demo-note mt-3">Demonstração visual: a avaliação não é salva.</p></div></div></div></div>
+<!-- Janela de login / cadastro -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body text-center px-4 px-md-5 pb-5">
+        <span class="brand-mark login-mark">▤</span>
+        <span class="eyebrow">BEM-VINDO AO RESENHOU</span>
+        <h2>Entre na sua estante</h2>
+        <p>Suas próximas histórias estão esperando.</p>
+        <form id="loginForm">
+          <label class="form-label w-100 text-start">E-mail
+            <input class="form-control mt-2" type="email" placeholder="voce@email.com" required>
+          </label>
+          <label class="form-label w-100 text-start">Senha
+            <input class="form-control mt-2" type="password" placeholder="Sua senha" required>
+          </label>
+          <button type="submit" class="btn btn-moss w-100 mt-2">Entrar</button>
+        </form>
+        <button class="login-switch">Ainda não tem uma conta? Cadastre-se</button>
+        <p class="demo-note mt-3">Demonstração visual: os dados não são enviados.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/dados.js"></script>
 <script src="js/comum.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>

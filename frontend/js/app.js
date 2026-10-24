@@ -1,18 +1,4 @@
-const books = [
-  {id:1,title:"Torto Arado",author:"Itamar Vieira Junior",genre:"Literatura brasileira",year:2019,publisher:"Todavia",pages:264,cover:"terra",accent:"O chão guarda histórias",score:4.7},
-  {id:2,title:"A Vegetariana",author:"Han Kang",genre:"Ficção contemporânea",year:2018,publisher:"Todavia",pages:176,cover:"olive",accent:"Han Kang",score:4.2},
-  {id:3,title:"Tudo é Rio",author:"Carla Madeira",genre:"Romance",year:2021,publisher:"Record",pages:210,cover:"blue",accent:"Um romance",score:4.5},
-  {id:4,title:"Cem Anos de Solidão",author:"Gabriel García Márquez",genre:"Realismo mágico",year:1967,publisher:"Record",pages:448,cover:"gold",accent:"Gabriel García Márquez",score:4.8},
-  {id:5,title:"O Avesso da Pele",author:"Jeferson Tenório",genre:"Literatura brasileira",year:2020,publisher:"Companhia das Letras",pages:192,cover:"wine",accent:"Jeferson Tenório",score:4.6},
-  {id:6,title:"Pachinko",author:"Min Jin Lee",genre:"Ficção histórica",year:2020,publisher:"Intrínseca",pages:528,cover:"navy",accent:"Uma saga familiar",score:4.4},
-  {id:7,title:"A Ridícula Ideia de Nunca Mais te Ver",author:"Rosa Montero",genre:"Biografia",year:2019,publisher:"Todavia",pages:200,cover:"coral",accent:"Rosa Montero",score:4.3},
-  {id:8,title:"O Peso do Pássaro Morto",author:"Aline Bei",genre:"Poesia",year:2017,publisher:"Nós",pages:168,cover:"cream",accent:"Aline Bei",score:4.1}
-];
-const news = [
- {title:"Os lançamentos literários mais aguardados deste outono",source:"Quatro Cinco Um",tag:"LANÇAMENTOS",image:"https://images.unsplash.com/photo-1697029749544-ffa7f15f9dd0?auto=format&fit=crop&w=900&q=82",summary:"Novas vozes, traduções inéditas e reencontros que já chegaram às livrarias."},
- {title:"Clubes de leitura transformam a experiência de ler em comunidade",source:"Revista Bula",tag:"COMUNIDADE",image:"https://images.unsplash.com/photo-1630343710506-89f8b9f21d31?auto=format&fit=crop&w=900&q=82",summary:"Encontros aproximam leitores de diferentes gerações."},
- {title:"Por que estamos voltando aos grandes clássicos?",source:"Nexo",tag:"ENSAIO",image:"https://images.unsplash.com/photo-1639527924446-3edc522ae4b0?auto=format&fit=crop&w=900&q=82",summary:"Novas traduções e projetos gráficos ajudam a formar leitores."}
-];
+
 const app = document.querySelector("#app");
 const esc = (value) =>
   String(value).replace(
@@ -68,16 +54,7 @@ function diary() {
 function diaryCard(b, pages, total, pct) {
   return `<article class="diary-card"><div class="d-flex gap-4 w-100">${cover(b, "small")}<div class="diary-copy flex-grow-1"><span class="eyebrow">EM ANDAMENTO</span><h2>${b.title}</h2><p>${b.author}</p><div class="progress-label"><span class="page-count">${pages} de ${total} páginas</span><strong class="progress-number">${pct}%</strong></div><div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div><div class="diary-meta"><span>Início: 12 de março de 2025</span><label><input type="checkbox"> É uma releitura</label></div><button class="btn btn-outline-moss update-progress">Atualizar progresso</button> <button class="btn btn-ghost" data-bs-toggle="modal" data-bs-target="#ratingModal">Marcar como concluído</button></div></div></article>`;
 }
-function lists() {
-  const names = [
-    "Livros favoritos",
-    "Para ler em dias de chuva",
-    "Presentes para pessoas queridas",
-  ];
 
-}
-function profile() {
-  }
 function render() {
   let route = location.hash.replace("#", "") || "inicio";
   const pages = {

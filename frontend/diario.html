@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Resenhou — Diario</title>
+  <title>Resenhou — Diário de leitura</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -23,18 +23,111 @@
 </header>
 
 <main>
+  <section class="page container">
+    <div class="page-heading heading-row">
+      <div>
+        <span class="eyebrow">MINHA JORNADA</span>
+        <h1>Diário de leitura</h1>
+        <p>Acompanhe cada página e guarde as memórias das suas leituras.</p>
+      </div>
+      <button class="btn btn-moss" data-bs-toggle="modal" data-bs-target="#loginModal">＋ Adicionar leitura</button>
+    </div>
 
+    <div class="stat-row row g-0">
+      <div class="col-6 col-md-3"><strong>2</strong><span>Lendo agora</span></div>
+      <div class="col-6 col-md-3"><strong>14</strong><span>Livros concluídos</span></div>
+      <div class="col-6 col-md-3"><strong>4.120</strong><span>Páginas este ano</span></div>
+      <div class="col-6 col-md-3"><strong>8</strong><span>Dias em sequência</span></div>
+    </div>
+
+    <div class="tabs">
+      <button class="active">Lendo agora <span>2</span></button>
+      <button>Concluídos <span>14</span></button>
+      <button>Abandonados <span>1</span></button>
+    </div>
+
+    <div id="diarioLista" class="diary-list"></div>
+  </section>
 </main>
 
-<footer><div class="container d-flex flex-wrap align-items-center gap-3"><div class="brand footer-brand"><span class="brand-mark">▤</span><span>Resenhou</span></div><p>Um lugar para guardar tudo o que a leitura desperta.</p><span>© 2026 Resenhou</span></div></footer>
-<nav class="quick-nav" aria-label="Atalhos"><a href="diario.html">▤ Diário</a><a href="quero-ler.html">▣ Quero ler</a><button data-bs-toggle="modal" data-bs-target="#loginModal">♙ Entrar</button></nav>
+<footer>
+  <div class="container d-flex flex-wrap align-items-center gap-3">
+    <div class="brand footer-brand"><span class="brand-mark">▤</span><span>Resenhou</span></div>
+    <p>Um lugar para guardar tudo o que a leitura desperta.</p>
+    <span>© 2026 Resenhou</span>
+  </div>
+</footer>
 
-<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content custom-modal"><div class="modal-header border-0"><button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button></div><div class="modal-body text-center px-4 px-md-5 pb-5"><span class="brand-mark login-mark">▤</span><span class="eyebrow">BEM-VINDO AO RESENHOU</span><h2>Entre na sua estante</h2><p>Suas próximas histórias estão esperando.</p><form id="loginForm"><label class="form-label w-100 text-start">E-mail<input class="form-control mt-2" type="email" placeholder="voce@email.com" required></label><label class="form-label w-100 text-start">Senha<input class="form-control mt-2" type="password" placeholder="Sua senha" required></label><button type="submit" class="btn btn-moss w-100 mt-2">Entrar</button></form><button class="login-switch">Ainda não tem uma conta? Cadastre-se</button><p class="demo-note mt-3">Demonstração visual: os dados não são enviados.</p></div></div></div></div>
+<nav class="quick-nav" aria-label="Atalhos">
+  <a href="diario.html">▤ Diário</a>
+  <a href="quero-ler.html">▣ Quero ler</a>
+  <button data-bs-toggle="modal" data-bs-target="#loginModal">♙ Entrar</button>
+</nav>
 
-<div class="modal fade" id="ratingModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content custom-modal"><div class="modal-header border-0"><button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button></div><div class="modal-body px-4 px-md-5 pb-5"><span class="eyebrow">SUA EXPERIÊNCIA</span><h2>Avaliar leitura</h2><label class="form-label">Sua nota<div class="rating-stars my-2"><button type="button">★</button><button type="button">★</button><button type="button">★</button><button type="button">★</button><button type="button">★</button></div></label><label class="form-label w-100">Escreva uma resenha<textarea class="form-control mt-2" rows="4" placeholder="Conte como foi a sua experiência com este livro..."></textarea></label><label class="form-check mt-3"><input class="form-check-input" type="checkbox"><span class="form-check-label">Esta resenha pode aparecer no meu perfil</span></label><button class="btn btn-moss w-100 mt-3" data-bs-dismiss="modal">Publicar avaliação</button><p class="demo-note mt-3">Demonstração visual: a avaliação não é salva.</p></div></div></div></div>
+<!-- Janela de login / cadastro -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body text-center px-4 px-md-5 pb-5">
+        <span class="brand-mark login-mark">▤</span>
+        <span class="eyebrow">BEM-VINDO AO RESENHOU</span>
+        <h2>Entre na sua estante</h2>
+        <p>Suas próximas histórias estão esperando.</p>
+        <form id="loginForm">
+          <label class="form-label w-100 text-start">E-mail
+            <input class="form-control mt-2" type="email" placeholder="voce@email.com" required>
+          </label>
+          <label class="form-label w-100 text-start">Senha
+            <input class="form-control mt-2" type="password" placeholder="Sua senha" required>
+          </label>
+          <button type="submit" class="btn btn-moss w-100 mt-2">Entrar</button>
+        </form>
+        <button class="login-switch">Ainda não tem uma conta? Cadastre-se</button>
+        <p class="demo-note mt-3">Demonstração visual: os dados não são enviados.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Janela de avaliação (aberta por "Marcar como concluído") -->
+<div class="modal fade" id="ratingModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body px-4 px-md-5 pb-5">
+        <span class="eyebrow">SUA EXPERIÊNCIA</span>
+        <h2>Avaliar leitura</h2>
+        <label class="form-label">Sua nota
+          <div class="rating-stars my-2">
+            <button type="button">★</button>
+            <button type="button">★</button>
+            <button type="button">★</button>
+            <button type="button">★</button>
+            <button type="button">★</button>
+          </div>
+        </label>
+        <label class="form-label w-100">Escreva uma resenha
+          <textarea class="form-control mt-2" rows="4" placeholder="Conte como foi a sua experiência com este livro..."></textarea>
+        </label>
+        <label class="form-check mt-3">
+          <input class="form-check-input" type="checkbox">
+          <span class="form-check-label">Esta resenha pode aparecer no meu perfil</span>
+        </label>
+        <button class="btn btn-moss w-100 mt-3" data-bs-dismiss="modal">Publicar avaliação</button>
+        <p class="demo-note mt-3">Demonstração visual: a avaliação não é salva.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/comum.js"></script>
 <script src="js/dados.js"></script>
+<script src="js/comum.js"></script>
 <script src="js/diario.js"></script>
 </body>
 </html>
