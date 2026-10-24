@@ -1,5 +1,6 @@
 package com.example.Resenhou.Leitura.Repository;
 
+import com.example.Resenhou.Leitura.Model.Avaliacao;
 import com.example.Resenhou.Leitura.Model.Lista;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,8 @@ public interface ListaRepository extends JpaRepository<Lista, Integer> {
     boolean existsById(Integer id);
 
     ListaRepository deleteById(int id);
+    List<Lista> findByUsuarioId(Integer usuarioId);
+    List<Lista> findByLivroId(Integer livroId);
 
     List<Lista> findByNomeContainingIgnoreCase(String nome);
 
