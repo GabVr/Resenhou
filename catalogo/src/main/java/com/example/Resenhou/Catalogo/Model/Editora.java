@@ -19,15 +19,15 @@ public class Editora {
     private Integer id;
 
     @Column(name="nome",nullable=false)
-    @NotBlank
+    @NotBlank(message = "Você deve informar o nome da editora")
     private String nome;
 
     @Column(name="pais",nullable=false)
-    @NotBlank
+    @NotBlank(message = "Você deve informar o nome do país onde está localizado")
     private String pais;
 
     @Column(name="site",nullable=false)
-    @NotBlank
+    @NotBlank(message = "Você deve informar o nome do site")
     private String site;
 
     @OneToMany(mappedBy = "editora", fetch = FetchType.LAZY)

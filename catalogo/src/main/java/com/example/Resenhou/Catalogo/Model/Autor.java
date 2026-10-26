@@ -21,19 +21,19 @@ public class Autor {
    private Integer id;
 
    @Column(name="nome",nullable=false)
-   @NotBlank
+   @NotBlank(message = "Você deve informar o nome do autor")
    private String nome;
 
    @Column(name="data_nascimento",nullable=false)
-   @NotNull
+   @NotNull(message = "Você deve informar a data de nascimento")
    private LocalDate dataNascimento;
 
    @Column(name="nacionalidade",nullable=false)
-   @NotBlank
+   @NotBlank(message = "Você deve informar a sua nacionalidade")
    private String nacionalidade;
 
    @Column(name="biografia",nullable=false,  columnDefinition = "TEXT")
-   @NotBlank
+   @NotBlank(message = "Você deve informar a sua biografia")
    private String biografia;
 
    @ManyToMany(mappedBy = "autores", fetch = FetchType.LAZY)

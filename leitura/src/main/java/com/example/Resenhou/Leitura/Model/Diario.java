@@ -30,7 +30,7 @@ public class Diario {
    private  int paginasLidas;
 
    @Column(name = "usuario_id", nullable = false)
-   @NotNull
+   @NotNull(message = "É importante ter o id do usuário")
    private Integer usuarioId;
 
    @Column(name = "is_relido", nullable = false)
@@ -38,6 +38,7 @@ public class Diario {
    private boolean relido;
 
    @Column(name = "livro_id", nullable = false)
+   @NotNull(message = "É importante ter o id do livro")
    private Integer livroId;
 
 }

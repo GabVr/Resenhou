@@ -19,11 +19,11 @@ public class Genero {
     private Integer id;
 
     @Column(name="nome",nullable=false)
-    @NotBlank
+    @NotBlank(message = "Você deve informar o nome do gênero")
     private String nome;
 
     @Column(name="descricao",nullable=false)
-    @NotBlank
+    @NotBlank(message = "Você deve informar alguma descrição")
     private String descricao;
 
     @ManyToMany(mappedBy = "generos", fetch = FetchType.LAZY)

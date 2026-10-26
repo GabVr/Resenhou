@@ -19,6 +19,11 @@ bin/
 .env
 .env.properties
 
+# Ignorar arquivos de chaves RSA em qualquer pasta do projeto
+*.pem
+*.pub
+*.key
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

@@ -22,15 +22,15 @@ public class Livro {
     private  Integer id;
 
     @Column(name="nome",nullable=false)
-    @NotBlank
+    @NotBlank(message = "Você deve informar o nome do livro")
     private String nome;
 
     @Column(name="titulo",nullable=false)
-    @NotBlank
+    @NotBlank(message = "Você deve informar título do livro")
     private String titulo;
 
     @Column(name="sinopse",nullable=false,  columnDefinition = "TEXT")
-    @NotBlank
+    @NotBlank(message = "Você deve pôr uma sinopse")
     private String sinopse;
 
     @Column(name="data_nascimento",nullable=false)
@@ -42,11 +42,11 @@ public class Livro {
     private int numeroPaginas;
 
     @Column(name="isbn",nullable=false, unique=true)
-    @NotBlank
+    @NotBlank(message = "Você deve preencher o campo de isbn")
     private String isbn;
 
     @Column(name="titulo_original",nullable=false)
-    @NotBlank
+    @NotBlank(message = "Você deve preencher o campo com o título original do livro")
     private String tituloOriginal;
 
     @ManyToMany(fetch = FetchType.LAZY)

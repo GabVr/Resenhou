@@ -22,10 +22,10 @@ public class QueroLer {
     private LocalDate dataAdicao;
 
     @Column(name = "usuario_id", nullable = false)
-    @NotNull
+    @NotNull(message = "É importante ter o id do usuário")
     private Integer usuarioId;
 
     @Column(name = "livro_id", nullable = false)
-    @NotNull
+    @NotNull(message = "É importante ter o id do livro")
     private Integer livroId;
 }

@@ -27,19 +27,19 @@ public class Avaliacao {
     private  int nota;
 
     @Column(name = "usuario_id", nullable = false)
-    @NotNull
+    @NotNull(message = "É importante ter o id do usuário")
     private Integer usuarioId;
 
     @Column(name="texto", nullable=true,  columnDefinition = "TEXT")
-    @NotBlank
+    @NotBlank(message = "Pôr o texto")
     private  String texto;
 
     @Column(name="data", nullable=false)
-    @NotNull
+    @NotNull(message = "É importante informar a data da avaliação")
     private  LocalDate data;
 
     @Column(name = "livro_id", nullable = false)
-    @NotNull
+    @NotNull(message = "É importante ter o id do livro")
     private  Integer livroId;
 
 }

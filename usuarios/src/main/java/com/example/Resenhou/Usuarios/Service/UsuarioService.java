@@ -3,6 +3,7 @@ package com.example.Resenhou.Usuarios.Service;
 import com.example.Resenhou.Usuarios.Model.Usuario;
 import com.example.Resenhou.Usuarios.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,14 +18,28 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public static void validarDataCadastro(LocalDate dataCadastro){
         if(dataCadastro.isAfter(LocalDate.now())){
             throw new RuntimeException("Não pode ser posterior a data atual");
         }
     }
 
+    private String limparCpf(String cpf) {
+        if (cpf == null) {
+            return null;
+        }
+
+        return cpf.replaceAll("\\D", "");
+    }
+
     public Usuario salvarUsuario(Usuario usuario){
         validarDataCadastro(usuario.getDataCadastro());
+        usuario.setCpf(limparCpf(usuario.getCpf()));
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
     }
 
@@ -44,7 +59,8 @@ public class UsuarioService {
         Usuario usuarioAtualizado = encontrarUsuarioId(idUsuario);
         usuarioAtualizado.setNome(DadosUsuario.getUsername());
         usuarioAtualizado.setEmail(DadosUsuario.getEmail());
-        usuarioAtualizado.setSenha(DadosUsuario.getSenha());
+        usuarioAtualizado.setSenha(passwordEncoder.encode(DadosUsuario.getSenha()));
+        usuarioAtualizado.setCpf(DadosUsuario.getCpf());
         return salvarUsuario(usuarioAtualizado);
     }
 

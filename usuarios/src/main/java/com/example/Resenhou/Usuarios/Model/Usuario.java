@@ -20,28 +20,32 @@ public class Usuario {
     Integer id;
 
     @Column(name="nome", nullable=false)
-    @NotBlank
+    @NotBlank(message = "O campo de nome deve ser preenchido")
     String nome;
 
     @Column(name="username", nullable=false, unique=true)
-    @NotBlank
+    @NotBlank(message = "Você deve informar o seu username deve ser preenchido")
     String username;
 
     @Column(name="email", nullable=false, unique=true)
     @Email
-    @NotBlank
+    @NotBlank(message = "Você deve informar o seu email")
     String email;
 
-    @Column(name="senha", nullable=false, unique=true)
-    @NotBlank
+    @Column(name="senha", nullable=false)
+    @NotBlank(message = "O campo de senha deve ser preenchido")
     String senha;
 
     @Column(name="data_cadastro", nullable=false)
-    @NotNull
+    @NotNull(message = "A data de cadastro deve ser preenchida")
     LocalDate dataCadastro;
 
     @Column(name="biografia", nullable=false)
-    @NotBlank
+    @NotBlank(message = "O campo de biografia deve ser preenchido")
     String biografia;
+
+    @Column(name = "cpf", nullable = false, unique = true)
+    @NotBlank(message = "O campo de cpf deve ser preenchido")
+    String cpf;
 
 }
