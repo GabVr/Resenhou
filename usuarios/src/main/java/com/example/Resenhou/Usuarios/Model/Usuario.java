@@ -40,8 +40,7 @@ public class Usuario {
     @NotNull(message = "A data de cadastro deve ser preenchida")
     LocalDate dataCadastro;
 
-    @Column(name="biografia", nullable=false)
-    @NotBlank(message = "O campo de biografia deve ser preenchido")
+    @Column(name="biografia", nullable=true)
     String biografia;
 
     @Column(name = "cpf", nullable = false, unique = true)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,18 +7,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link href="../static/css/style.css" rel="stylesheet">
 </head>
 
 <body>
 <header class="topbar sticky-top">
   <div class="container-fluid d-flex align-items-center gap-4 px-lg-5 px-3">
-    <a class="brand text-decoration-none" href="index.html"><span class="brand-mark">▤</span><span>Resenhou<br><em>plataforma de livros</em></span></a>
+    <a class="brand text-decoration-none" th:href="@{/index}"><span class="brand-mark">▤</span><span>Resenhou<br><em>plataforma de livros</em></span></a>
     <nav class="main-nav d-none d-lg-flex">
-      <a href="catalogo.html">Catálogo</a><a href="listas.html">Listas</a><a href="noticias.html">Notícias</a>
+      <a th:href="@{/catalogo}">Catálogo</a><a th:href="@{/listas}">Listas</a><a th:href="@{/noticias}">Notícias</a>
     </nav>
     <form class="global-search ms-auto" id="globalSearch"><span>⌕</span><input id="globalSearchInput" placeholder="Buscar livros, autores..." aria-label="Buscar livros e autores"></form>
-    <a class="avatar avatar-small text-decoration-none" href="perfil.html" aria-label="Abrir perfil">MC</a>
+    <a class="avatar avatar-small text-decoration-none" th:href="@{/perfil}" aria-label="Abrir perfil">MC</a>
   </div>
 </header>
 
@@ -32,8 +33,8 @@
         <h1>Histórias que ficam.<br><em>Leituras que transformam.</em></h1>
         <p>Descubra novos livros, acompanhe suas leituras e compartilhe o que cada história despertou em você.</p>
         <div class="d-flex flex-wrap gap-2 mt-4">
-          <a class="btn btn-moss" href="catalogo.html">Explorar catálogo</a>
-          <a class="btn btn-outline-moss" href="diario.html">Meu diário de leitura</a>
+          <a class="btn btn-moss" th:href="@{/catalogo}">Explorar catálogo</a>
+          <a class="btn btn-outline-moss" th:href="@{/diario}">Meu diário de leitura</a>
         </div>
       </div>
 
@@ -56,7 +57,7 @@
   <section class="content-section container">
     <div class="section-title">
       <div><span class="eyebrow">PARA DESCOBRIR</span><h2>Livros em destaque</h2></div>
-      <a href="catalogo.html">Ver catálogo →</a>
+      <a th:href="@{/catalogo}">Ver catálogo →</a>
     </div>
     <div id="destaques" class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4"></div>
   </section>
@@ -66,7 +67,7 @@
     <div class="container">
       <div class="section-title">
         <div><span class="eyebrow">NA SUA ESTANTE</span><h2>Lendo agora</h2></div>
-        <a href="diario.html">Abrir diário →</a>
+        <a th:href="@{/diario}">Abrir diário →</a>
       </div>
       <div class="reading-card row align-items-center g-4">
         <div class="col-auto" data-capa="6" data-tamanho="small"></div>
@@ -79,7 +80,7 @@
           <small>Você começou em 12 de março</small>
         </div>
         <div class="col-12 col-lg-auto">
-          <a class="btn btn-outline-moss" href="diario.html">Atualizar progresso</a>
+          <a class="btn btn-outline-moss" th:href="@{/diario}">Atualizar progresso</a>
         </div>
       </div>
     </div>
@@ -89,7 +90,7 @@
   <section class="content-section container">
     <div class="section-title">
       <div><span class="eyebrow">PARA FICAR POR DENTRO</span><h2>Últimas notícias literárias</h2></div>
-      <a href="noticias.html">Ver todas →</a>
+      <a th:href="@{/noticias}">Ver todas →</a>
     </div>
     <div id="noticiasHome" class="row g-4"></div>
   </section>
@@ -105,8 +106,8 @@
 </footer>
 
 <nav class="quick-nav" aria-label="Atalhos">
-  <a href="diario.html">▤ Diário</a>
-  <a href="quero-ler.html">▣ Quero ler</a>
+  <a th:href="@{/diario}">▤ Diário</a>
+  <a th:href="@{/queroter}">▣ Quero ler</a>
   <button data-bs-toggle="modal" data-bs-target="#loginModal">♙ Entrar</button>
 </nav>
 
@@ -139,8 +140,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/dados.js"></script>
-<script src="js/comum.js"></script>
-<script src="js/index.js"></script>
+<script th:src="@{/js/dados.js}"></script>
+<script th:src="@{/js/comum.js}"></script>
+<script th:src="@{/js/index.js}"></script>
 </body>
 </html>

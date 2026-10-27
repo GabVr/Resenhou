@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/diarios")
+@RequestMapping("/api/diarios")
 public class DiarioController {
 
     @Autowired

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resenhou - Criar conta</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap"
+          rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+</head>
+
+<body class="cadastro-senha-page">
+
+<main class="cadastro-senha-container">
+    <section class="cadastro-senha-card">
+
+        <a class="cadastro-senha-brand" th:href="@{/}">
+            <span class="cadastro-senha-brand-mark">R</span>
+            <span>Resenhou</span>
+        </a>
+
+        <header class="cadastro-senha-heading">
+            <span class="cadastro-senha-eyebrow">FAÇA PARTE DA COMUNIDADE</span>
+
+            <h1>Crie sua conta</h1>
+
+            <p>
+                Cadastre-se para descobrir filmes, compartilhar avaliações
+                e organizar suas histórias favoritas.
+            </p>
+        </header>
+
+        <div class="cadastro-senha-message error"
+             th:if="${erro != null}"
+             th:text="${erro}"
+             role="alert">
+        </div>
+
+        <div class="cadastro-senha-message success"
+             th:if="${mensagem != null}"
+             th:text="${mensagem}"
+             role="status">
+        </div>
+
+        <form class="cadastro-senha-form"
+              th:action="@{/auth/cadastro}"
+              method="post">
+
+            <div class="cadastro-senha-field">
+                <label for="nome">Nome completo</label>
+
+                <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Digite seu nome completo"
+                        autocomplete="name"
+                        maxlength="150"
+                        required>
+            </div>
+
+            <div class="cadastro-senha-field">
+                <label for="email">E-mail</label>
+
+                <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="exemplo@email.com"
+                        autocomplete="email"
+                        required>
+            </div>
+
+            <div class="cadastro-senha-field">
+                <label for="cpf">CPF</label>
+
+                <input
+                        type="text"
+                        id="cpf"
+                        name="cpf"
+                        placeholder="Digite seu CPF"
+                        autocomplete="off"
+                        inputmode="numeric"
+                        maxlength="14"
+                        required>
+
+                <small>
+                    Campo Obrigatório no formulário.
+                </small>
+            </div>
+
+            <div class="cadastro-senha-field">
+                <label for="username">Nome de usuário</label>
+
+                <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Escolha um nome de usuário"
+                        autocomplete="username"
+                        minlength="3"
+                        maxlength="50"
+                        required>
+
+                <small>
+                    Esse será o nome utilizado para entrar na sua conta.
+                </small>
+            </div>
+
+            <div class="cadastro-senha-field">
+                <label for="biografia">Biografia</label>
+
+                <textarea
+                        id="biografia"
+                        name="biografia"
+                        placeholder="Conte um pouco sobre você e seus gostos cinematográficos..."
+                        rows="4"
+                        maxlength="500"></textarea>
+
+                <small>
+                    Opcional. Você poderá personalizar seu perfil.
+                </small>
+            </div>
+
+            <div class="cadastro-senha-field">
+                <label for="senha">Senha</label>
+
+                <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        placeholder="Crie uma senha segura"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required>
+
+                <small>
+                    A senha deve possuir pelo menos 8 caracteres.
+                </small>
+            </div>
+
+            <div class="cadastro-senha-field">
+                <label for="confirmarSenha">Confirmar senha</label>
+
+                <input
+                        type="password"
+                        id="confirmarSenha"
+                        name="confirmarSenha"
+                        placeholder="Digite a senha novamente"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required>
+            </div>
+
+            <button type="submit" class="cadastro-senha-button">
+                Criar minha conta
+            </button>
+
+        </form>
+
+        <nav class="cadastro-senha-links">
+            <a th:href="@{/login}">
+                Já possui uma conta? Entre aqui
+            </a>
+        </nav>
+
+    </section>
+</main>
+
+</body>
+</html>

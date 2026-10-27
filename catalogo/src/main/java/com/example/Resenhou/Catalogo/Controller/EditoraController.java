@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/editoras")
+@RequestMapping("/api/editoras")
 public class EditoraController {
 
     @Autowired

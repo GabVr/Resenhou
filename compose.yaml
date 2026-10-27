@@ -88,6 +88,28 @@ services:
       - .env
       - .env.properties
 
+  resenhou-web:
+    build:
+      context: ./resenhou-web
+      dockerfile: Dockerfile
+    container_name: web-app
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    env_file:
+      - .env
+      - .env.properties
+
 volumes:
   db_data:
 
