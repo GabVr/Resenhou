@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resenhou - Login</title>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap"
+          rel="stylesheet">
+
+</head>
+
+<body class="login-page">
+
+<main class="login-container">
+    <section class="login-card">
+
+
+        <a class="login-brand" th:href="@{/}">
+            <span class="login-brand-icon">R</span>
+            <span>Resenhou</span>
+        </a>
+
+
+        <div class="login-header">
+            <p class="login-eyebrow">BEM-VINDO DE VOLTA</p>
+
+            <h1>Entre na sua conta</h1>
+
+            <p>
+                Continue descobrindo, avaliando e organizando seus filmes favoritos.
+            </p>
+        </div>
+
+
+        <div class="login-alert login-error" th:if="${param.error}">
+            Não foi possível realizar o login. Verifique suas credenciais.
+        </div>
+
+
+        <div class="login-alert login-success" th:if="${param.logout}">
+            Você saiu da sua conta com sucesso.
+        </div>
+
+
+        <div class="login-alert login-success"
+             th:if="${mensagem != null}"
+             th:text="${mensagem}">
+        </div>
+
+
+        <form th:action="@{/auth/login}" method="post">
+
+            <div class="login-form-group">
+                <label for="username">Usuário</label>
+
+                <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Digite seu usuário"
+                        autocomplete="username"
+                        required>
+            </div>
+
+            <div class="login-form-group">
+                <label for="password">Senha</label>
+
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Digite sua senha"
+                        autocomplete="current-password"
+                        required>
+            </div>
+
+            <button type="submit" class="login-btn-primary">
+                Entrar na conta
+            </button>
+
+        </form>
+
+
+        <div class="login-links">
+            <a th:href="@{/cadastro-senha}">
+                Ainda não definiu sua senha?
+            </a>
+
+            <a th:href="@{/atualizar-senha}">
+                Alterar minha senha
+            </a>
+        </div>
+
+        <!-- Rodapé -->
+        <p class="login-footer">
+            Sua próxima história favorita começa aqui.
+        </p>
+
+    </section>
+</main>
+
+</body>
+</html>

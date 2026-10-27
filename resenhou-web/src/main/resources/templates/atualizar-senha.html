@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resenhou - Atualizar senha</title>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap"
+          rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body class="atualizar-senha-page">
+
+<main class="atualizar-senha-container">
+    <section class="atualizar-senha-card">
+
+
+        <a class="atualizar-senha-brand" th:href="@{/}">
+            <span class="atualizar-senha-brand-icon">R</span>
+            <span>Resenhou</span>
+        </a>
+
+        <div class="atualizar-senha-header">
+            <p class="atualizar-senha-eyebrow">SEGURANÇA DA CONTA</p>
+
+            <h1>Atualize sua senha</h1>
+
+            <p>
+                Escolha uma nova senha para manter sua conta protegida.
+            </p>
+        </div>
+
+
+        <div class="atualizar-senha-alert atualizar-senha-error"
+             th:if="${erro != null}"
+             th:text="${erro}">
+        </div>
+
+
+        <div class="atualizar-senha-alert atualizar-senha-success"
+             th:if="${mensagem != null}"
+             th:text="${mensagem}">
+        </div>
+
+
+        <form th:action="@{/auth/atualizar-senha}" method="post">
+
+            <div class="atualizar-senha-form-group">
+                <label for="senhaAtual">Senha atual</label>
+
+                <input
+                        type="password"
+                        id="senhaAtual"
+                        name="senhaAtual"
+                        placeholder="Digite sua senha atual"
+                        autocomplete="current-password"
+                        required>
+            </div>
+
+            <div class="atualizar-senha-form-group">
+                <label for="novaSenha">Nova senha</label>
+
+                <input
+                        type="password"
+                        id="novaSenha"
+                        name="novaSenha"
+                        placeholder="Digite sua nova senha"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required>
+            </div>
+
+            <div class="atualizar-senha-form-group">
+                <label for="confirmarNovaSenha">Confirme a nova senha</label>
+
+                <input
+                        type="password"
+                        id="confirmarNovaSenha"
+                        name="confirmarNovaSenha"
+                        placeholder="Digite a nova senha novamente"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required>
+            </div>
+
+            <button type="submit" class="atualizar-senha-btn-primary">
+                Atualizar senha
+            </button>
+
+        </form>
+
+        <div class="atualizar-senha-links">
+            <a th:href="@{/perfil}">Voltar ao perfil</a>
+
+            <a th:href="@{/login}">Voltar ao login</a>
+        </div>
+
+    </section>
+</main>
+
+</body>
+</html>
