@@ -1,62 +1,115 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Resenhou — Listas</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resenhou — Minhas listas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/crud.css" rel="stylesheet">
 </head>
-
 <body>
 <header class="topbar sticky-top">
-  <div class="container-fluid d-flex align-items-center gap-4 px-lg-5 px-3">
-    <a class="brand text-decoration-none" href="index.html"><span class="brand-mark">▤</span><span>Resenhou<br><em>plataforma de livros</em></span></a>
-    <nav class="main-nav d-none d-lg-flex">
-      <a href="catalogo.html">Catálogo</a><a href="listas.html">Listas</a><a href="noticias.html">Notícias</a>
-    </nav>
-    <form class="global-search ms-auto" id="globalSearch"><span>⌕</span><input id="globalSearchInput" placeholder="Buscar livros, autores..." aria-label="Buscar livros e autores"></form>
-    <a class="avatar avatar-small text-decoration-none" href="perfil.html" aria-label="Abrir perfil">MC</a>
-  </div>
+    <div class="container-fluid d-flex align-items-center gap-4 px-lg-5 px-3">
+        <a class="brand text-decoration-none" href="index.html"><span class="brand-mark">▤</span><span>Resenhou<br><em>plataforma de livros</em></span></a>
+        <nav class="main-nav d-none d-lg-flex">
+            <a href="catalogo.html">Catálogo</a><a href="livros.html">Livros</a><a href="autores.html">Autores</a><a
+                href="editoras.html">Editoras</a><a class="active" href="listas.html">Listas</a>
+        </nav>
+        <a href="index.html#perfil" class="avatar avatar-small text-decoration-none ms-auto">MC</a>
+    </div>
 </header>
-
-<main>
-  <section class="page container">
+<main class="container page crud-page">
     <div class="page-heading heading-row">
-      <div><span class="eyebrow">MINHAS CURADORIAS</span>
-        <h1>Listas personalizadas</h1>
-        <p>Organize livros por temas, momentos e tudo o que fizer sentido para você.</p></div>
-      <button class="btn btn-moss" data-bs-toggle="modal" data-bs-target="#loginModal">＋ Criar nova lista</button>
+        <div><span class="eyebrow">MINHAS CURADORIAS</span>
+            <h1>Listas personalizadas</h1>
+            <p>Organize livros por temas, momentos e tudo o que fizer sentido para você.</p></div>
+        <button type="button" class="btn btn-moss" id="newBtn">＋ Criar nova lista</button>
     </div>
-
-    <div id="listasGrid" class="row g-4 mt-2"></div>
-      <div class="col-md-6">
-        <article class="list-card">
-          <div class="cover-stack"></div>
-          <div class="list-copy">
-            <div><span></span>
-              <h2></h2>
-              <p></p></div>
-          </div>
-        </article>
-      </div>
-
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <label class="crud-search">⌕ <input id="search" type="search" placeholder="Buscar minhas listas..."
+                                            aria-label="Buscar listas"></label>
+        <span id="count" class="crud-count"></span>
     </div>
-  </section>
-
+    <div id="listCards" class="row g-4"></div>
+    <p id="empty" class="crud-empty d-none">Nenhuma lista encontrada.</p>
+    <p class="crud-disclaimer mt-4">Demonstração sem login: os dados ficam salvos somente neste navegador.</p>
 </main>
+<footer>
+    <div class="container d-flex flex-wrap align-items-center gap-3">
+        <div class="brand footer-brand"><span class="brand-mark">▤</span><span>Resenhou</span></div>
+        <p>Um lugar para guardar tudo o que a leitura desperta.</p><span>© 2026 Resenhou</span></div>
+</footer>
 
-<footer><div class="container d-flex flex-wrap align-items-center gap-3"><div class="brand footer-brand"><span class="brand-mark">▤</span><span>Resenhou</span></div><p>Um lugar para guardar tudo o que a leitura desperta.</p><span>© 2026 Resenhou</span></div></footer>
-<nav class="quick-nav" aria-label="Atalhos"><a href="diario.html">▤ Diário</a><a href="quero-ler.html">▣ Quero ler</a><button data-bs-toggle="modal" data-bs-target="#loginModal">♙ Entrar</button></nav>
-
-<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content custom-modal"><div class="modal-header border-0"><button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button></div><div class="modal-body text-center px-4 px-md-5 pb-5"><span class="brand-mark login-mark">▤</span><span class="eyebrow">BEM-VINDO AO RESENHOU</span><h2>Entre na sua estante</h2><p>Suas próximas histórias estão esperando.</p><form id="loginForm"><label class="form-label w-100 text-start">E-mail<input class="form-control mt-2" type="email" placeholder="voce@email.com" required></label><label class="form-label w-100 text-start">Senha<input class="form-control mt-2" type="password" placeholder="Sua senha" required></label><button type="submit" class="btn btn-moss w-100 mt-2">Entrar</button></form><button class="login-switch">Ainda não tem uma conta? Cadastre-se</button><p class="demo-note mt-3">Demonstração visual: os dados não são enviados.</p></div></div></div></div>
-
-<div class="modal fade" id="ratingModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content custom-modal"><div class="modal-header border-0"><button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button></div><div class="modal-body px-4 px-md-5 pb-5"><span class="eyebrow">SUA EXPERIÊNCIA</span><h2>Avaliar leitura</h2><label class="form-label">Sua nota<div class="rating-stars my-2"><button type="button">★</button><button type="button">★</button><button type="button">★</button><button type="button">★</button><button type="button">★</button></div></label><label class="form-label w-100">Escreva uma resenha<textarea class="form-control mt-2" rows="4" placeholder="Conte como foi a sua experiência com este livro..."></textarea></label><label class="form-check mt-3"><input class="form-check-input" type="checkbox"><span class="form-check-label">Esta resenha pode aparecer no meu perfil</span></label><button class="btn btn-moss w-100 mt-3" data-bs-dismiss="modal">Publicar avaliação</button><p class="demo-note mt-3">Demonstração visual: a avaliação não é salva.</p></div></div></div></div>
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <div><span class="eyebrow">MINHAS LISTAS</span>
+                    <h2 class="modal-title" id="modalTitle">Nova lista</h2></div>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form id="editForm">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12"><label for="nome" class="form-label">Nome da lista</label><input id="nome"
+                                                                                                             name="nome"
+                                                                                                             class="form-control"
+                                                                                                             maxlength="120"
+                                                                                                             required>
+                        </div>
+                        <div class="col-12"><label for="descricao" class="form-label">Descrição</label><textarea
+                                id="descricao" name="descricao" class="form-control" rows="3" required></textarea></div>
+                        <div class="col-md-6"><label for="dataCriacao" class="form-label">Data de criação</label><input
+                                id="dataCriacao" name="dataCriacao" type="date" class="form-control" required></div>
+                        <div class="col-md-6"><label for="usuarioId" class="form-label">ID do usuário
+                            (teste)</label><input id="usuarioId" name="usuarioId" type="number" min="1"
+                                                  class="form-control" value="1" required></div>
+                        <div class="col-12"><label class="form-label" for="bookSearch">Livros da lista</label><input
+                                id="bookSearch" class="form-control mb-2" placeholder="Filtrar livros disponíveis"
+                                type="search">
+                            <div id="bookOptions" class="book-picker"></div>
+                            <small class="text-muted">Marque quantos livros desejar. É possível criar uma lista
+                                vazia.</small></div>
+                        <div class="col-md-6">
+                            <div class="form-check"><input class="form-check-input" id="publica" name="publica"
+                                                           type="checkbox"><label class="form-check-label"
+                                                                                  for="publica">Lista pública</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check"><input class="form-check-input" id="visualicacaoPerfil"
+                                                           name="visualicacaoPerfil" type="checkbox"><label
+                                    class="form-check-label" for="visualicacaoPerfil">Mostrar no perfil</label></div>
+                        </div>
+                    </div>
+                    <p id="formError" class="form-error d-none" role="alert"></p></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-moss" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-moss">Salvar lista</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+            <div class="modal-body p-4"><span class="eyebrow">CONFIRMAR EXCLUSÃO</span>
+                <h2>Excluir lista?</h2>
+                <p id="deleteDescription"></p>
+                <div class="d-flex justify-content-end gap-2">
+                    <button class="btn btn-outline-moss" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-danger" id="confirmDelete" type="button">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/comum.js"></script>
-<script src="js/dados.js"></script>
-<script src="js/listas.js"></script>
+<script src="js/listas-cards.js"></script>
 </body>
 </html>
