@@ -2,8 +2,6 @@ package com.example.Resenhou.Leitura.Repository;
 
 import com.example.Resenhou.Leitura.Model.Avaliacao;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,10 +20,9 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
 
    List<Avaliacao> findByNota(int nota);
 
+   Optional<Avaliacao> findByUsuarioId(Integer usuarioId);
 
-   List<Avaliacao> findByUsuarioId(Integer usuarioId);
+    Optional<Avaliacao> findByLivroId(Integer livroId);
 
-    List<Avaliacao> findByLivroId(Integer livroId);
-
-   Avaliacao deleteById(int integer);
+    void deleteById(int integer);
 }

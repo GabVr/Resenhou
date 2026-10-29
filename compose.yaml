@@ -23,8 +23,8 @@ services:
 
   catalogo:
       build:
-        context: ./catalogo
-        dockerfile: Dockerfile
+        context: .
+        dockerfile: catalogo/Dockerfile
       container_name: catalogo-app
       restart: unless-stopped
       environment:
@@ -46,8 +46,8 @@ services:
 
   leitura:
       build:
-        context: ./leitura
-        dockerfile: Dockerfile
+        context: .
+        dockerfile: leitura/Dockerfile
       container_name: leitura-app
       restart: unless-stopped
       environment:
@@ -68,8 +68,8 @@ services:
 
   usuarios:
     build:
-     context: ./usuarios
-     dockerfile: Dockerfile
+     context: .
+     dockerfile: usuarios/Dockerfile
     container_name: usuario-app
     restart: unless-stopped
     environment:

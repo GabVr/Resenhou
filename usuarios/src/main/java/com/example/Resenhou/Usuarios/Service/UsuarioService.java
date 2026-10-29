@@ -1,5 +1,7 @@
 package com.example.Resenhou.Usuarios.Service;
 
+import com.example.Resenhou.Exception.NameErrorException;
+import com.example.Resenhou.Exception.UserNotFoundException;
 import com.example.Resenhou.Usuarios.Model.Usuario;
 import com.example.Resenhou.Usuarios.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.zip.DataFormatException;
 
 
 @Service
@@ -22,9 +24,9 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public static void validarDataCadastro(LocalDate dataCadastro){
+    public static void validarDataCadastro(LocalDate dataCadastro) throws DataFormatException {
         if(dataCadastro.isAfter(LocalDate.now())){
-            throw new RuntimeException("Não pode ser posterior a data atual");
+            throw new DataFormatException("Não pode ser posterior a data atual");
         }
     }
 
@@ -37,18 +39,22 @@ public class UsuarioService {
     }
 
     public Usuario salvarUsuario(Usuario usuario){
-        validarDataCadastro(usuario.getDataCadastro());
+        try {
+            validarDataCadastro(usuario.getDataCadastro());
+        } catch (DataFormatException e) {
+            throw new RuntimeException(e);
+        }
         usuario.setCpf(limparCpf(usuario.getCpf()));
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
     }
 
-    public List<Usuario> encontrarUsuarioPorNome(String nomeUsuario){
-        return usuarioRepository.findByNomeContainingIgnoreCase(nomeUsuario);
+    public Usuario encontrarUsuarioPorNome(String nomeUsuario){
+        return usuarioRepository.findByNomeContainingIgnoreCase(nomeUsuario).orElseThrow(() -> new NameErrorException("O nome desse usuário não foi encontrado."));
     }
 
     public Usuario encontrarUsuarioId(Integer idUsuario){
-    return usuarioRepository.findById(idUsuario).orElseThrow( () -> new NoSuchElementException("Não foi possível encontrar o usuário por meio do ID"));
+    return usuarioRepository.findById(idUsuario).orElseThrow( () -> new UserNotFoundException("Não foi possível encontrar o usuário por meio do ID"));
     }
 
     public List<Usuario> encontrarTodosUsuarios(){

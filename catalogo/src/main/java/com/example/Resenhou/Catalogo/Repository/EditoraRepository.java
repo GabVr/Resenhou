@@ -20,5 +20,5 @@ public interface EditoraRepository extends JpaRepository<Editora, Integer> {
     List<Editora> findByNomeContainingIgnoreCase(String nome);
     Optional <Editora> findById(Integer id);
 
-    Editora deleteById(int integer);
+    void deleteById(int integer);
 }

@@ -28,13 +28,13 @@ public class DiarioController {
     }
 
     @GetMapping("/buscar/usuario")
-    public List<Diario> listarPorUsuario(@RequestParam Integer usuarioId){
-        return diarioService.encontrarDiarioPorUsuario(usuarioId);
+    public ResponseEntity<Diario> listarPorUsuario(@RequestParam Integer usuarioId){
+        return ResponseEntity.status(HttpStatus.FOUND).body(diarioService.encontrarDiarioPorUsuario(usuarioId));
     }
 
     @GetMapping("/buscar/livro")
-    public List<Diario> listarPorLivro(@RequestParam Integer livroId){
-        return diarioService.encontrarDiarioPorLivro(livroId);
+    public ResponseEntity<Diario> listarPorLivro(@RequestParam Integer livroId){
+        return ResponseEntity.status(HttpStatus.FOUND).body(diarioService.encontrarDiarioPorLivro(livroId));
     }
 
     @PostMapping()

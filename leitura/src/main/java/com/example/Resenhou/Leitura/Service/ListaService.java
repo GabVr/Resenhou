@@ -1,5 +1,8 @@
 package com.example.Resenhou.Leitura.Service;
 
+import com.example.Resenhou.Exception.DataFormatException;
+import com.example.Resenhou.Exception.ResourceNotFound;
+import com.example.Resenhou.Exception.UserNotFoundException;
 import com.example.Resenhou.Leitura.Model.Lista;
 import com.example.Resenhou.Leitura.Repository.ListaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 @Service
 public class ListaService {
@@ -17,7 +20,7 @@ public class ListaService {
 
     public static void validarDataCriacao(LocalDate dataCriacao){
         if(dataCriacao.isAfter(LocalDate.now())) {
-            throw new RuntimeException("Não pode ser posterior a data atual");
+            throw new DataFormatException("Não pode ser posterior a data atual");
         }
     }
 
@@ -30,8 +33,8 @@ public class ListaService {
         return listaRepository.findAll();
     }
 
-    public List<Lista> encontrarListasPorUsuario(Integer  usuarioId){
-        return listaRepository.findByUsuarioId(usuarioId);
+    public Lista encontrarListasPorUsuario(Integer  usuarioId){
+        return listaRepository.findByUsuarioId(usuarioId).orElseThrow(() -> new UserNotFoundException("Não foi possível encontrar a lista por meio do ID do usuario"));
     }
 
     public List<Lista> encontrarPorNome(String nome){
@@ -39,11 +42,12 @@ public class ListaService {
     }
 
     public Lista encontrarListaPorId(Integer id){
-        return listaRepository.findById(id).orElseThrow( () -> new NoSuchElementException("Não foi possível encontrar a lista por meio do ID"));
+        return listaRepository.findById(id).orElseThrow( () -> new ResourceNotFound("Não foi possível encontrar a lista por meio do ID"));
     }
 
-    public List<Lista> encontrarListaPorLivro(Integer livroId) {
-        return listaRepository.findByLivroId(livroId);
+    public Lista encontrarListaPorLivro(Integer livroId) {
+        return listaRepository.findByLivroId(livroId)
+                .orElseThrow(() -> new ResourceNotFound("Não foi possível encontrar a lista por meio do ID do livro"));
     }
 
     public Lista atualizarLista(Integer idLista, Lista lista){

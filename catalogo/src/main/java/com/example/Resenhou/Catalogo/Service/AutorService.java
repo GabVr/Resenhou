@@ -3,12 +3,14 @@ package com.example.Resenhou.Catalogo.Service;
 
 import com.example.Resenhou.Catalogo.Model.Autor;
 import com.example.Resenhou.Catalogo.Repository.AutorRepository;
+import com.example.Resenhou.Exception.DataFormatException;
+import com.example.Resenhou.Exception.ResourceNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 @Service
 public class AutorService {
@@ -18,7 +20,7 @@ public class AutorService {
 
     public static void validarDataNascimento(LocalDate dataNascimento) {
         if(dataNascimento.isAfter(LocalDate.now())) {
-            throw new RuntimeException("Não pode ser posterior a data de nascimento");
+            throw new DataFormatException("Não pode ser posterior a data de nascimento");
         }
     }
 
@@ -32,7 +34,7 @@ public class AutorService {
     }
 
     public Autor encontrarAutorPorId(Integer id) {
-        return autorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Não foi possível encontrar autor por ID"));
+        return autorRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Não foi possível encontrar autor por ID"));
     }
 
     public List<Autor> encontrarAutorPorNome(String nomeAutor) {

@@ -1,12 +1,15 @@
 package com.example.Resenhou.Leitura.Service;
 
+import com.example.Resenhou.Exception.ResourceNotFound;
+import com.example.Resenhou.Exception.UserNotFoundException;
 import com.example.Resenhou.Leitura.Model.QueroLer;
 import com.example.Resenhou.Leitura.Repository.QueroLerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
+
+
 
 @Service
 public class QueroLerService {
@@ -29,16 +32,16 @@ public class QueroLerService {
         return queroLerRepository.findAll();
     }
 
-    public List<QueroLer> encontrarPorUsuario(Integer  usuarioId) {
-        return queroLerRepository.findByUsuarioId(usuarioId);
+    public QueroLer encontrarPorUsuario(Integer  usuarioId) {
+        return queroLerRepository.findByUsuarioId(usuarioId).orElseThrow(() -> new UserNotFoundException("Não foi possível encontrar por meio do ID do usuario"));
     }
 
     public QueroLer encontrarQueroLerPorId(Integer id){
-        return queroLerRepository.findById(id).orElseThrow( () -> new NoSuchElementException("Não foi possível encontrar o quero ler por meio do ID"));
+        return queroLerRepository.findById(id).orElseThrow( () -> new ResourceNotFound("Não foi possível encontrar o quero ler por meio do ID"));
     }
 
-    public List<QueroLer> encontrarQueroLerPorLivro(Integer livroId) {
-        return queroLerRepository.findByLivroId(livroId);
+    public QueroLer encontrarQueroLerPorLivro(Integer livroId) {
+        return queroLerRepository.findByLivroId(livroId).orElseThrow(() -> new ResourceNotFound("Não foi possível encontrar por meio do ID do livro"));
     }
 
     public QueroLer atualizarQueroLer(Integer idQueroLer, QueroLer queroLer){

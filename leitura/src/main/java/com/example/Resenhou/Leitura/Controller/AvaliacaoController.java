@@ -28,13 +28,13 @@ public class AvaliacaoController {
     }
 
     @GetMapping("/buscar/usuario")
-    public List<Avaliacao> listarPorUsuario(@RequestParam Integer usuarioId){
-        return avaliacaoService.encontrarAvalicaoPorUsuario(usuarioId);
+    public ResponseEntity<Avaliacao> listarPorUsuario(@RequestParam Integer usuarioId){
+        return ResponseEntity.status(HttpStatus.FOUND).body(avaliacaoService.encontrarAvalicaoPorUsuario(usuarioId));
     }
 
     @GetMapping("/buscar/livro")
-    public List<Avaliacao> listarPorLivro(@RequestParam Integer livroId){
-        return avaliacaoService.encontrarAvaliacaoPorLivro(livroId);
+    public ResponseEntity<Avaliacao> listarPorLivro(@RequestParam Integer livroId){
+        return ResponseEntity.status(HttpStatus.FOUND).body(avaliacaoService.encontrarAvaliacaoPorLivro(livroId));
     }
 
 

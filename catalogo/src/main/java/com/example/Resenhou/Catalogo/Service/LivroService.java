@@ -1,13 +1,16 @@
 package com.example.Resenhou.Catalogo.Service;
 
+import com.example.Resenhou.Catalogo.Model.Autor;
+import com.example.Resenhou.Catalogo.Model.Editora;
 import com.example.Resenhou.Catalogo.Model.Livro;
 import com.example.Resenhou.Catalogo.Repository.LivroRepository;
+import com.example.Resenhou.Exception.ResourceNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 @Service
 public class LivroService {
@@ -31,19 +34,19 @@ public class LivroService {
     }
 
     public Livro encontrarLivroPorId(Integer id){
-        return livroRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Não foi possível encontrar o livro por ID"));
+        return livroRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Não foi possível encontrar o livro por ID"));
     }
 
     public List<Livro> encontrarLivroPorTitulo(String titulo){
         return livroRepository.findByTituloContainingIgnoreCase(titulo);
     }
 
-    public List<Livro> encontrarLivroPorAutor(String autor){
-        return livroRepository.findByAutoresContainingIgnoreCase(autor);
+    public Livro encontrarLivroPorAutor(Autor autor){
+        return livroRepository.findByAutoresContainingIgnoreCase(autor).orElseThrow(() -> new ResourceNotFound("Não foi possível encontrar o livro por Autor"));
     }
 
-    public List<Livro> encontrarLivroPorEditora(String editora){
-        return livroRepository.findByEditoraContainingIgnoreCase(editora);
+    public Livro encontrarLivroPorEditora(Editora editora){
+        return livroRepository.findByEditoraContainingIgnoreCase(editora).orElseThrow(() -> new ResourceNotFound("Não foi possível encontrar o livro por Editora"));
     }
 
     public Livro atualizarLivroPorId(Integer id, Livro dadosLivro){
@@ -56,8 +59,8 @@ public class LivroService {
         return salvarLivro(livroAtualizado);
     }
 
-    public Livro deletarLivroPorId(int id){
+    public void deletarLivroPorId(int id){
         encontrarLivroPorId(id);
-        return livroRepository.deleteById(id);
+        livroRepository.deleteById(id);
     }
 }
