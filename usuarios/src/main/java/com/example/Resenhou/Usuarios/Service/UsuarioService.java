@@ -1,5 +1,6 @@
 package com.example.Resenhou.Usuarios.Service;
 
+import com.example.Resenhou.Exception.DataFormatException;
 import com.example.Resenhou.Exception.NameErrorException;
 import com.example.Resenhou.Exception.UserNotFoundException;
 import com.example.Resenhou.Usuarios.Model.Usuario;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.zip.DataFormatException;
+
 
 
 @Service
@@ -24,7 +25,7 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public static void validarDataCadastro(LocalDate dataCadastro) throws DataFormatException {
+    public static void validarDataCadastro(LocalDate dataCadastro) {
         if(dataCadastro.isAfter(LocalDate.now())){
             throw new DataFormatException("Não pode ser posterior a data atual");
         }
@@ -39,11 +40,8 @@ public class UsuarioService {
     }
 
     public Usuario salvarUsuario(Usuario usuario){
-        try {
-            validarDataCadastro(usuario.getDataCadastro());
-        } catch (DataFormatException e) {
-            throw new RuntimeException(e);
-        }
+
+        validarDataCadastro(usuario.getDataCadastro());
         usuario.setCpf(limparCpf(usuario.getCpf()));
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
@@ -65,7 +63,7 @@ public class UsuarioService {
         Usuario usuarioAtualizado = encontrarUsuarioId(idUsuario);
         usuarioAtualizado.setNome(DadosUsuario.getUsername());
         usuarioAtualizado.setEmail(DadosUsuario.getEmail());
-        usuarioAtualizado.setSenha(passwordEncoder.encode(DadosUsuario.getSenha()));
+        usuarioAtualizado.setSenha(DadosUsuario.getSenha());
         usuarioAtualizado.setCpf(DadosUsuario.getCpf());
         return salvarUsuario(usuarioAtualizado);
     }
