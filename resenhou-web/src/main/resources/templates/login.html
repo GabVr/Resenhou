@@ -59,7 +59,7 @@
         </div>
 
 
-        <form th:action="@{/auth/login}" method="post">
+        <form id="loginForm" th:action="@{/auth/login}" method="post">
 
             <div class="login-form-group">
                 <label for="username">Usuário</label>
@@ -110,5 +110,6 @@
     </section>
 </main>
 
+<script th:src="@{/js/login.js}" src="/js/login.js"></script>
 </body>
 </html>

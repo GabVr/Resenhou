@@ -10,6 +10,4 @@ public class CatalogoPageController {
   public String catalogo(){
       return "catalogo";
   }
-
-
 }

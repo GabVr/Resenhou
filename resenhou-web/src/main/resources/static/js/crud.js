@@ -414,4 +414,19 @@ document.querySelector("#editForm").addEventListener("submit", (e) => {
   render();
   modal.hide();
 });
+
+async function buscarAutores() {
+
+    const resposta = await fetch("http://localhost:8081/api/autores");
+
+    if (!resposta.ok) {
+        console.log("Erro na requisição:", resposta.status);
+        return;
+    }
+
+    const autores = await resposta.json();
+
+    console.log(autores);
+}
+buscarAutores();
 render();

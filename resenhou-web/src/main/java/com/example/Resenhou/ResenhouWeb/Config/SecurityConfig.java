@@ -10,11 +10,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+            UsuariosAuthenticationProvider authenticationProvider) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable()
-                ).authorizeHttpRequests(auth -> auth
+                .authenticationProvider(authenticationProvider)
+                .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers(
                                 "/",
@@ -31,7 +32,7 @@ public class SecurityConfig {
                                 "/catalogo/**",
                                 "/diario/**",
                                 "/autores/**",
-                                "/editoras/**"
+                                "/editoras/**",
                                 "/index/**",
                                 "/listas/**",
                                 "/noticias/**",
@@ -46,8 +47,15 @@ public class SecurityConfig {
                 )
                 .formLogin( form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/perfil", true)
-                        .failureUrl("/login?error=true")
+                        .loginProcessingUrl("/auth/login")
+                        .successHandler((request, response, authentication) -> {
+                            request.getSession().setAttribute("accessToken", authentication.getDetails());
+                            ((org.springframework.security.authentication.AbstractAuthenticationToken)
+                                    authentication).setDetails(null);
+                            response.setContentType("application/json;charset=UTF-8");
+                            response.getWriter().write("{\"redirect\":\"" + request.getContextPath() + "/perfil\"}");
+                        })
+                        .failureHandler((request, response, exception) -> response.setStatus(401))
                         .permitAll()
                 )
                 .logout(logout -> logout

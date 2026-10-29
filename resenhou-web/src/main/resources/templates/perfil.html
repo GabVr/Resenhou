@@ -26,13 +26,16 @@
 </header>
 
 <main>
+  <form th:action="@{/logout}" method="post" class="container mt-3">
+    <button type="submit" class="btn btn-outline-moss">Sair da conta</button>
+  </form>
   <section>
     <div class="profile-hero">
       <div class="container profile-inner">
         <div class="avatar avatar-large">MC</div>
         <div>
           <span class="eyebrow">LEITORA DESDE 2022</span>
-          <h1>Marina Costa</h1>
+          <h1 th:text="${nomeUsuario}">Usuário</h1>
           <strong>@marinacosta</strong>
           <p>Leitora de ficção brasileira, café sem açúcar e finais que deixam um pouco de saudade.</p>
         </div>
