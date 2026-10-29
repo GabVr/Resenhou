@@ -1,12 +1,15 @@
 package com.example.Resenhou.Leitura.Service;
 
+import com.example.Resenhou.Exception.DataFormatException;
+import com.example.Resenhou.Exception.ResourceNotFound;
+import com.example.Resenhou.Exception.UserNotFoundException;
 import com.example.Resenhou.Leitura.Model.Diario;
 import com.example.Resenhou.Leitura.Repository.DiarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 @Service
 public class DiarioService {
@@ -16,17 +19,17 @@ public class DiarioService {
 
     public static void validarDataInicio(LocalDate dataInicio){
         if(dataInicio.isAfter(LocalDate.now())) {
-            throw new RuntimeException("Não pode ser posterior a data atual");
+            throw new DataFormatException("Não pode ser posterior a data atual");
         }
     }
 
     public static void validarDataFinal(LocalDate dataInicio, LocalDate dataFinal){
         if(dataFinal.isAfter(LocalDate.now())) {
-            throw new RuntimeException("Não pode ser posterior a data atual");
+            throw new DataFormatException("Não pode ser posterior a data atual");
         }
 
         if(dataFinal.isBefore(dataInicio)) {
-            throw new RuntimeException("Não pode ser anterior a data de início");
+            throw new DataFormatException("Não pode ser anterior a data de início");
         }
     }
 
@@ -40,16 +43,16 @@ public class DiarioService {
         return diarioRepository.findAll();
     }
 
-    public List<Diario> encontrarDiarioPorUsuario(Integer  usuarioId){
-        return diarioRepository.findByUsuarioId(usuarioId);
+    public Diario encontrarDiarioPorUsuario(Integer  usuarioId){
+        return diarioRepository.findByUsuarioId(usuarioId).orElseThrow(() -> new UserNotFoundException("Não foi possível encontrar nenhum diário por meio do ID do usuário."));
     }
 
     public Diario encontrarDiarioPorId(Integer id){
-        return diarioRepository.findById(id).orElseThrow( () -> new NoSuchElementException("Não foi possível encontrar o diário por meio do ID"));
+        return diarioRepository.findById(id).orElseThrow( () -> new ResourceNotFound("Não foi possível encontrar o diário por meio do ID"));
     }
 
-    public List<Diario> encontrarDiarioPorLivro(Integer livroId) {
-        return diarioRepository.findByLivroId(livroId);
+    public Diario encontrarDiarioPorLivro(Integer livroId) {
+        return diarioRepository.findByLivroId(livroId).orElseThrow(() -> new ResourceNotFound("Não foi possível encontrar diário por meio do ID do livro."));
     }
 
     public Diario atualizarDiario(Integer idDiario, Diario diario){

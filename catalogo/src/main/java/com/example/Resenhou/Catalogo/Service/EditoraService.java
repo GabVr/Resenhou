@@ -3,11 +3,12 @@ package com.example.Resenhou.Catalogo.Service;
 
 import com.example.Resenhou.Catalogo.Model.Editora;
 import com.example.Resenhou.Catalogo.Repository.EditoraRepository;
+import com.example.Resenhou.Exception.ResourceNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 @Service
 public class EditoraService {
@@ -24,7 +25,7 @@ public class EditoraService {
     }
 
     public Editora encontrarEditoraPorId(Integer idEditora){
-        return  editoraRepository.findById(idEditora).orElseThrow(() -> new NoSuchElementException("Editora inexistente"));
+        return  editoraRepository.findById(idEditora).orElseThrow(() -> new ResourceNotFound("Não foi possível encontrar a editora por ID"));
     }
 
     public List<Editora> encontrarEditoraPorNome(String nomeEditora){
@@ -40,8 +41,8 @@ public class EditoraService {
         return salvarEditora(editoraAtualizada);
     }
 
-    public Editora deletarEditoraPorId(int idEditora){
+    public void deletarEditoraPorId(int idEditora){
         encontrarEditoraPorId(idEditora);
-        return editoraRepository.deleteById(idEditora);
+        editoraRepository.deleteById(idEditora);
     }
 }

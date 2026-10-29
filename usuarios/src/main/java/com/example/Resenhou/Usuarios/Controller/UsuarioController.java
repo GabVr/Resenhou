@@ -30,8 +30,8 @@ public class UsuarioController {
 
 
     @GetMapping("/buscar")
-    public List<Usuario> listarPorNome(@RequestParam String nome){
-        return usuarioService.encontrarUsuarioPorNome(nome);
+    public ResponseEntity<Usuario> listarPorNome(@RequestParam String nome){
+        return ResponseEntity.status(HttpStatus.FOUND).body(usuarioService.encontrarUsuarioPorNome(nome));
     }
 
     @PostMapping()

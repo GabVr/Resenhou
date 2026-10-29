@@ -28,13 +28,13 @@ public class ListaController {
     }
 
     @GetMapping("/buscar/usuario")
-    public List<Lista> listarPorUsuario(@RequestParam Integer usuarioId){
-        return listaService.encontrarListasPorUsuario(usuarioId);
+    public ResponseEntity<Lista> listarPorUsuario(@RequestParam Integer usuarioId){
+        return ResponseEntity.status(HttpStatus.FOUND).body(listaService.encontrarListasPorUsuario(usuarioId));
     }
 
     @GetMapping("/buscar/livro")
-    public List<Lista> listarPorLivro(@RequestParam Integer livroId){
-        return listaService.encontrarListaPorLivro(livroId);
+    public ResponseEntity<Lista> listarPorLivro(@RequestParam Integer livroId){
+        return ResponseEntity.status(HttpStatus.FOUND).body(listaService.encontrarListaPorLivro(livroId));
     }
 
     @GetMapping("buscar/nome")

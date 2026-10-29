@@ -1,5 +1,7 @@
 package com.example.Resenhou.Catalogo.Controller;
 
+import com.example.Resenhou.Catalogo.Model.Autor;
+import com.example.Resenhou.Catalogo.Model.Editora;
 import com.example.Resenhou.Catalogo.Model.Livro;
 import com.example.Resenhou.Catalogo.Service.LivroService;
 import jakarta.validation.Valid;
@@ -33,13 +35,13 @@ public class LivroController {
     }
 
     @GetMapping("/buscar/autor")
-    public List<Livro> listarPorAutor(@RequestParam String autor){
-        return livroService.encontrarLivroPorAutor(autor);
+    public ResponseEntity<Livro> listarPorAutor(@RequestParam Autor autor){
+        return ResponseEntity.status(HttpStatus.FOUND).body(livroService.encontrarLivroPorAutor(autor));
     }
 
     @GetMapping("/buscar/editora")
-    public List<Livro> listarPorEditora(@RequestParam String editora){
-        return livroService.encontrarLivroPorEditora(editora);
+    public ResponseEntity<Livro> listarPorEditora(@RequestParam Editora editora){
+        return ResponseEntity.status(HttpStatus.FOUND).body(livroService.encontrarLivroPorEditora(editora));
     }
 
     @PostMapping()

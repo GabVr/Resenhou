@@ -28,13 +28,13 @@ public class QueroLerController {
     }
 
     @GetMapping("/buscar/usuario")
-    public List<QueroLer> listarPorUsuario(@RequestParam Integer usuarioId){
-        return queroLerService.encontrarPorUsuario(usuarioId);
+    public ResponseEntity<QueroLer> listarPorUsuario(@RequestParam Integer usuarioId){
+        return ResponseEntity.status(HttpStatus.FOUND).body(queroLerService.encontrarPorUsuario(usuarioId));
     }
 
     @GetMapping("/buscar/livro")
-    public List<QueroLer> listarPorLivro(@RequestParam Integer livroId){
-        return queroLerService.encontrarQueroLerPorLivro(livroId);
+    public ResponseEntity<QueroLer> listarPorLivro(@RequestParam Integer livroId){
+        return ResponseEntity.status(HttpStatus.FOUND).body(queroLerService.encontrarQueroLerPorLivro(livroId));
     }
 
     @PostMapping()

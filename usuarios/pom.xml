@@ -29,6 +29,20 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.example.Resenhou</groupId>
+			<artifactId>exceptions</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>com.resend</groupId>
 			<artifactId>resend-java</artifactId>
 			<version>4.28.0</version>
