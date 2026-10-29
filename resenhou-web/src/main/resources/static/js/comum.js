@@ -41,7 +41,7 @@ function iniciarBuscaGlobal() {
     evento.preventDefault();
     const texto = campo.value.trim();
     const parametro = texto ? "?busca=" + encodeURIComponent(texto) : "";
-    location.href = "catalogo.html" + parametro;
+    location.href = "/catalogo" + parametro;
   });
 }
 

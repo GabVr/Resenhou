@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resenhou — Autores</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body data-entity="autores">
+<header class="topbar sticky-top">
+    <div class="container-fluid d-flex align-items-center gap-4 px-lg-5 px-3">
+        <a class="brand text-decoration-none" th:href="@{/index}"><span class="brand-mark">▤</span><span>Resenhou<br><em>plataforma de livros</em></span></a>
+        <nav class="main-nav d-none d-lg-flex">
+            <a th:href="@{/catalogo}">Catálogo</a>
+            <a th:href="@{/autores}">Autores</a><a th:href="@{/editoras}">Editoras</a>
+            <a th:href="@{/listas}">Listas</a><a th:href="@{/noticias}">Notícias</a>
+        </nav>
+        <form class="global-search ms-auto" id="globalSearch"><span>⌕</span><input id="globalSearchInput" placeholder="Buscar livros, autores..." aria-label="Buscar livros e autores"></form>
+        <a class="avatar avatar-small text-decoration-none" th:href="@{/perfil}" aria-label="Abrir perfil">MC</a>
+    </div>
+</header>
+
+<main class="container page crud-page">
+    <div class="page-heading heading-row">
+        <div><span class="eyebrow">GERENCIAMENTO</span>
+            <h1>Autores</h1>
+            <p>Gerencie os autores cadastrados.</p></div>
+        <button type="button" class="btn btn-moss" id="newBtn">＋ Cadastrar autor</button>
+    </div>
+    <div class="crud-panel">
+        <div class="crud-toolbar"><label class="crud-search">⌕ <input id="search" type="search"
+                                                                      placeholder="Buscar autores..."
+                                                                      aria-label="Buscar autores"></label><span
+                id="count" class="crud-count"></span></div>
+        <div class="table-responsive">
+            <table class="table crud-table align-middle mb-0">
+                <thead id="tableHead"></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+        <p class="crud-empty d-none" id="empty">Nenhum registro encontrado.</p></div>
+</main>
+
+<footer>
+    <div class="container d-flex flex-wrap align-items-center gap-3">
+        <div class="brand footer-brand"><span class="brand-mark">▤</span><span>Resenhou</span></div>
+        <p>Um lugar para guardar tudo o que a leitura desperta.</p><span>© 2026 Resenhou</span></div>
+</footer>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <div><span class="eyebrow">CADASTRO · RESENHOU</span>
+                    <h2 id="modalTitle" class="modal-title">Cadastrar</h2></div>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form id="editForm">
+                <div class="modal-body">
+                    <div class="row g-3" id="formFields"></div>
+                    <p class="form-error d-none" id="formError" role="alert"></p></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-moss" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-moss" type="submit">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+            <div class="modal-body p-4"><span class="eyebrow">CONFIRMAR EXCLUSÃO</span>
+                <h2>Excluir registro?</h2>
+                <p id="deleteDescription">O registro será removido.</p>
+                <div class="d-flex justify-content-end gap-2">
+                    <button class="btn btn-outline-moss" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-danger" id="confirmDelete" type="button">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/crud.js}"></script>
+</body>
+</html>

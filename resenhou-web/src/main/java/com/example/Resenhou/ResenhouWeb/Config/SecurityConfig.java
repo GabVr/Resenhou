@@ -30,6 +30,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/catalogo/**",
                                 "/diario/**",
+                                "/autores/**",
+                                "/editoras/**"
                                 "/index/**",
                                 "/listas/**",
                                 "/noticias/**",
