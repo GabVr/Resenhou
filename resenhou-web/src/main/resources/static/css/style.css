@@ -1149,6 +1149,20 @@ footer>div>span {
 .crud-action:hover{background:var(--moss-pale)}
 .crud-action.delete{color:#a03f34}
 .crud-empty{padding:30px;text-align:center;color:var(--muted)}
+/* O formulario intermediario precisa encolher para o corpo do modal rolar. */
+body[data-entity="autores"] #editForm {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+body[data-entity="autores"] #editForm .modal-body {
+    overflow-y: auto;
+}
+body[data-entity="autores"] #editForm .modal-footer {
+    flex-shrink: 0;
+}
 .custom-modal{background:var(--white);border-radius:16px;border:1px solid var(--line)}
 .custom-modal .modal-header,.custom-modal .modal-footer{padding:22px 26px;border-color:var(--line)}
 .custom-modal .modal-body{padding:24px 26px}.custom-modal h2{font-family:var(--serif)}

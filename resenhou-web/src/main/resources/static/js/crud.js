@@ -373,7 +373,7 @@ document.querySelector("#confirmDelete").addEventListener("click", () => {
     deleteModal.hide();
   }
 });
-document.querySelector("#editForm").addEventListener("submit", (e) => {
+document.querySelector("#editForm").addEventListener("submit", async(e) => {
   e.preventDefault();
   const form = e.currentTarget;
   if (!form.reportValidity()) return;
@@ -414,4 +414,5 @@ document.querySelector("#editForm").addEventListener("submit", (e) => {
   render();
   modal.hide();
 });
+
 render();
