@@ -373,7 +373,7 @@ document.querySelector("#confirmDelete").addEventListener("click", () => {
     deleteModal.hide();
   }
 });
-document.querySelector("#editForm").addEventListener("submit", (e) => {
+document.querySelector("#editForm").addEventListener("submit", async(e) => {
   e.preventDefault();
   const form = e.currentTarget;
   if (!form.reportValidity()) return;
@@ -415,18 +415,4 @@ document.querySelector("#editForm").addEventListener("submit", (e) => {
   modal.hide();
 });
 
-async function buscarAutores() {
-
-    const resposta = await fetch("http://localhost:8081/api/autores");
-
-    if (!resposta.ok) {
-        console.log("Erro na requisição:", resposta.status);
-        return;
-    }
-
-    const autores = await resposta.json();
-
-    console.log(autores);
-}
-buscarAutores();
 render();
