@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,5 +45,6 @@ public class Autor {
    private String biografia;
 
    @ManyToMany(mappedBy = "autores", fetch = FetchType.LAZY)
+   @JsonIgnore
    private Set<Livro> livros = new HashSet<>();
 }
