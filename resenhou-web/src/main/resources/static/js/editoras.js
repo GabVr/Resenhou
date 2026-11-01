@@ -1,154 +1,221 @@
-// Editoras: os registros ainda ficam salvos no navegador.
-const STORE = "resenhou-crud-v1-";
-const type = "editoras";
-const seed = {
-  editoras: [
-    {
-      id: 1,
-      nome: "Todavia",
-      pais: "Brasil",
-      site: "https://todavialivros.com.br",
-    },
-    {
-      id: 2,
-      nome: "Record",
-      pais: "Brasil",
-      site: "https://www.record.com.br",
-    },
-  ],
-};
+// Elementos da página e estado
+const tabelaEditoras = document.querySelector("#tableBody");
+const buscaEditoras = document.querySelector("#search");
+const contadorEditoras = document.querySelector("#count");
+const formularioEditora = document.querySelector("#editForm");
+const erroEditora = document.querySelector("#formError");
+const modalEditora = new bootstrap.Modal("#editModal");
+const botaoSalvarEditora = formularioEditora.querySelector('[type="submit"]');
+let editoras = [];
+let editoraEmEdicao = null;
+let editoraParaExcluir = null;
+const modalExcluir = new bootstrap.Modal("#deleteModal");
+const confirmarExclusao = document.querySelector("#confirmDelete");
 
-function loadRecords(type) {
-  try {
-    const value = localStorage.getItem(STORE + type);
-    return value === null ? structuredClone(seed[type]) : JSON.parse(value);
-  } catch {
-    return structuredClone(seed[type]);
+// Requisições: os dados de editoras são persistidos pela API.
+async function buscarEditoras() {
+  const resposta = await fetch("/api/editoras");
+  if (!resposta.ok) {
+    throw new Error("Não foi possível carregar as editoras: HTTP " + resposta.status);
+  }
+  editoras = await resposta.json();
+  renderizarEditoras();
+}
+
+async function salvarEditora(editora) {
+  const csrf = document.querySelector('meta[name="_csrf"]').content;
+  const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+  const editando = editoraEmEdicao !== null;
+  const url = editando
+    ? `/api/editoras/${editoraEmEdicao}`
+    : "/api/editoras";
+
+  const resposta = await fetch(url, {
+    method: editando ? "PUT" : "POST",
+    headers: {
+      "Content-Type": "application/json",
+      [csrfHeader]: csrf,
+    },
+    body: JSON.stringify(editora),
+  });
+
+  if (!resposta.ok) {
+    throw new Error("Não foi possível salvar: HTTP " + resposta.status);
   }
 }
 
-function saveRecords(type, data) {
-  localStorage.setItem(STORE + type, JSON.stringify(data));
+async function excluirEditora(id) {
+  const csrf = document.querySelector('meta[name="_csrf"]').content;
+  const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+
+  const resposta = await fetch(`/api/editoras/${id}`, {
+    method: "DELETE",
+    headers: {
+      [csrfHeader]: csrf,
+    },
+  });
+
+  if (!resposta.ok) {
+    throw new Error("Não foi possível excluir: HTTP " + resposta.status);
+  }
 }
 
-function safe(value) {
-  return String(value ?? "").replace(
-    /[&<>"']/g,
-    (ch) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
-        ch
-      ],
-  );
-}
-
-const cfg = {
-    label: "editora",
-    columns: ["Nome", "País", "Site"],
-    fields: [
-      { key: "nome", label: "Nome", required: true },
-      { key: "pais", label: "País", required: true },
-      { key: "site", label: "Site", type: "text", required: true },
-    ],
-    cells: (r) => [r.nome, r.pais, r.site],
+function escaparHtml(valor) {
+  const caracteres = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
   };
 
-const search = document.querySelector("#search"),
-  head = document.querySelector("#tableHead"),
-  body = document.querySelector("#tableBody"),
-  count = document.querySelector("#count");
-const modal = new bootstrap.Modal("#editModal"),
-  deleteModal = new bootstrap.Modal("#deleteModal");
-let editing = null,
-  removing = null;
-function render() {
-  const q = search.value.trim().toLocaleLowerCase("pt-BR");
-  const records = loadRecords(type).filter((r) =>
-    JSON.stringify(r).toLocaleLowerCase("pt-BR").includes(q),
+  return String(valor ?? "").replace(
+    /[&<>"']/g,
+    (c) => caracteres[c]
   );
-  head.innerHTML =
-    "<tr>" +
-    cfg.columns.map((c) => `<th>${safe(c)}</th>`).join("") +
-    '<th class="text-end">Ações</th></tr>';
-  body.innerHTML = records
-    .map(
-      (r) =>
-        `<tr>${cfg
-          .cells(r)
-          .map(
-            (v, i) =>
-              `<td class="${i === 0 ? "crud-primary" : ""}">${safe(v)}</td>`,
-          )
-          .join(
-            "",
-          )}<td><div class="crud-actions"><button class="crud-action" data-action="edit" data-id="${r.id}">Editar</button><button class="crud-action delete" data-action="delete" data-id="${r.id}">Excluir</button></div></td></tr>`,
-    )
-    .join("");
-  count.textContent = `${records.length} registro(s)`;
-  document
-    .querySelector("#empty")
-    .classList.toggle("d-none", records.length > 0);
 }
-function fieldHtml(f, r) {
-  const id = "field-" + f.key;
-  return `<div class="col-md-6"><label class="form-label" for="${id}">${f.label}</label><input class="form-control" id="${id}" name="${f.key}" required value="${safe(r?.[f.key])}"></div>`;
+
+function renderizarEditoras() {
+  const busca = buscaEditoras.value.trim().toLocaleLowerCase("pt-BR");
+  const encontrados = editoras.filter((editora) =>
+    [editora.nome, editora.pais, editora.site]
+      .join(" ").toLocaleLowerCase("pt-BR").includes(busca),
+  );
+
+  document.querySelector("#tableHead").innerHTML =
+    '<tr><th>Nome</th><th>Pais</th><th>Site</th><th class="text-end">Ações</th></tr>';
+  tabelaEditoras.innerHTML = encontrados.map((editora) => `
+    <tr>
+      <td class="crud-primary">${escaparHtml(editora.nome)}</td>
+      <td>${escaparHtml(editora.pais)}</td>
+      <td>${escaparHtml(editora.site)}</td>
+      <td><div class="crud-actions">
+      <button class="crud-action" data-action="editar" data-id="${editora.id}">Editar</button>
+      <button class="crud-action delete" data-action="excluir" data-id="${editora.id}">Excluir</button>
+      </div></td>
+    </tr>`).join("");
+  contadorEditoras.textContent = `${encontrados.length} registro(s)`;
+  document.querySelector("#empty").classList.toggle("d-none", encontrados.length > 0);
 }
-function openEdit(id) {
-  editing = id;
-  const r = id === null ? null : loadRecords(type).find((x) => x.id === id);
-  document.querySelector("#modalTitle").textContent =
-    (r ? "Editar " : "Cadastrar ") + cfg.label;
-  document.querySelector("#formFields").innerHTML = cfg.fields
-    .map((f) => fieldHtml(f, r))
-    .join("");
-  document.querySelector("#formError").classList.add("d-none");
-  modal.show();
+
+function abrirCadastroEditora() {
+  editoraEmEdicao = null;
+  document.querySelector("#modalTitle").textContent = "Cadastrar editora";
+  document.querySelector("#formFields").innerHTML = `
+    <div class="col-md-6">
+      <label class="form-label" for="editoraNome">Nome</label>
+      <input class="form-control" id="editoraNome" name="nome" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label" for="editoraPais">País</label>
+      <input class="form-control" id="editoraPais" name="pais" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label" for="editoraSite">Site</label>
+      <input class="form-control" id="editoraSite" name="site" required>
+    </div>`;
+  erroEditora.classList.add("d-none");
+  modalEditora.show();
 }
-document
-  .querySelector("#newBtn")
-  .addEventListener("click", () => openEdit(null));
-search.addEventListener("input", render);
-body.addEventListener("click", (e) => {
-  const btn = e.target.closest("[data-action]");
-  if (!btn) return;
-  const id = Number(btn.dataset.id);
-  if (btn.dataset.action === "edit") openEdit(id);
-  else {
-    removing = id;
+
+function abrirEdicaoEditora(id) {
+  const editora = editoras.find((item) => item.id === id);
+  if (!editora) return;
+
+  abrirCadastroEditora();
+  editoraEmEdicao = id;
+
+  document.querySelector("#modalTitle").textContent = "Editar editora";
+
+  const campos = formularioEditora.elements;
+  campos.nome.value = editora.nome;
+  campos.pais.value = editora.pais;
+  campos.site.value = editora.site;
+}
+
+// Eventos
+document.querySelector("#newBtn").addEventListener("click", abrirCadastroEditora);
+buscaEditoras.addEventListener("input", renderizarEditoras);
+tabelaEditoras.addEventListener("click", (evento) => {
+  const botao = evento.target.closest("[data-action]");
+  if (!botao) return;
+
+  const id = Number(botao.dataset.id);
+
+  if (botao.dataset.action === "editar") {
+    abrirEdicaoEditora(id);
+  } else if (botao.dataset.action === "excluir") {
+    editoraParaExcluir = id;
+
+    const editora = editoras.find((item) => item.id === id);
     document.querySelector("#deleteDescription").textContent =
-      "O registro será removido da demonstração atual.";
-    deleteModal.show();
+      `Deseja excluir a editora "${editora?.nome || ""}"?`;
+
+    modalExcluir.show();
   }
-});
-document.querySelector("#confirmDelete").addEventListener("click", () => {
-  if (removing !== null) {
-    saveRecords(
-      type,
-      loadRecords(type).filter((r) => r.id !== removing),
-    );
-    removing = null;
-    render();
-    deleteModal.hide();
-  }
-});
-document.querySelector("#editForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const form = e.currentTarget;
-  if (!form.reportValidity()) return;
-  const data = {};
-  for (const f of cfg.fields) {
-    data[f.key] = form.elements[f.key].value.trim();
-  }
-  const records = loadRecords(type);
-  if (editing === null) {
-    data.id = Math.max(0, ...records.map((r) => r.id)) + 1;
-    records.push(data);
-  } else {
-    const i = records.findIndex((r) => r.id === editing);
-    if (i >= 0) records[i] = { ...records[i], ...data };
-  }
-  saveRecords(type, records);
-  render();
-  modal.hide();
 });
 
-render();
+confirmarExclusao.addEventListener("click", async () => {
+  if (editoraParaExcluir === null) return;
+
+  confirmarExclusao.disabled = true;
+
+  try {
+    await excluirEditora(editoraParaExcluir);
+  } catch (erro) {
+    document.querySelector("#deleteDescription").textContent = erro.message;
+    return;
+  } finally {
+    confirmarExclusao.disabled = false;
+  }
+
+  editoraParaExcluir = null;
+  modalExcluir.hide();
+
+  try {
+    await buscarEditoras();
+  } catch (erro) {
+    contadorEditoras.textContent =
+      "Editora excluída. Recarregue a página para atualizar a tabela.";
+    console.error(erro);
+  }
+});
+
+formularioEditora.addEventListener("submit", async (evento) => {
+  evento.preventDefault();
+  if (!formularioEditora.reportValidity()) return;
+  const campos = formularioEditora.elements;
+  const editora = {
+    nome: campos.nome.value.trim(),
+    pais: campos.pais.value.trim(),
+    site: campos.site.value.trim(),
+  };
+
+  erroEditora.classList.add("d-none");
+  botaoSalvarEditora.disabled = true;
+  try {
+    await salvarEditora(editora);
+  } catch (erro) {
+    erroEditora.textContent = erro.message;
+    erroEditora.classList.remove("d-none");
+    return;
+  } finally {
+    botaoSalvarEditora.disabled = false;
+  }
+
+  modalEditora.hide();
+  try {
+    await buscarEditoras();
+  } catch (erro) {
+    contadorEditoras.textContent = "Editora salva, mas não foi possível atualizar a tabela. Recarregue a página.";
+    console.error(erro);
+  }
+});
+
+
+
+// Inicialização
+buscarEditoras().catch((erro) => {
+  contadorEditoras.textContent = erro.message;
+  console.error(erro);
+});
