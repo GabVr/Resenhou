@@ -15,6 +15,6 @@ COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8080
 
-HEALTHCHECK --interval=1m --retries=2 CMD curl  --fail  http://localhost:8080 || exit 1
+HEALTHCHECK --interval=1m --retries=2 CMD curl --fail http://localhost:8080 || exit 1
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
