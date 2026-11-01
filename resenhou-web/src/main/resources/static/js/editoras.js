@@ -212,8 +212,6 @@ formularioEditora.addEventListener("submit", async (evento) => {
   }
 });
 
-
-
 // Inicialização
 buscarEditoras().catch((erro) => {
   contadorEditoras.textContent = erro.message;

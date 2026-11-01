@@ -1272,3 +1272,18 @@ body[data-entity="autores"] #editForm .modal-footer {
         flex: 1;
     }
 }
+#editModal .modal-dialog-scrollable #editForm {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#editModal .modal-dialog-scrollable #editForm .modal-body {
+  overflow-y: auto;
+}
+
+#editModal .modal-dialog-scrollable #editForm .modal-footer {
+  flex-shrink: 0;
+}
