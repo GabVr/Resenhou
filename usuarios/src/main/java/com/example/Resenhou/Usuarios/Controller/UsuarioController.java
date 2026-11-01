@@ -45,16 +45,8 @@ public class UsuarioController {
 
 
             @ApiResponse(
-                    responseCode = "400",
-                    description = "Vai depender do erro que foi analisado pelo @Valid do usuário.",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))}
-            ),
-
-
-            @ApiResponse(
                     responseCode = "500",
-                    description = "Vai ser um erro no servidor, sendo alguma condição inesperada no JSON",
+                    description = "Vai ser um erro no servidor, sendo alguma condição inesperada no caminho da requisição",
                     content = @Content
 
             )
@@ -62,6 +54,7 @@ public class UsuarioController {
     public List<Usuario> listar(){
         return usuarioService.encontrarTodosUsuarios();
     }
+
 
     @GetMapping("/{id}")
     @Operation(
@@ -117,14 +110,14 @@ public class UsuarioController {
 
             @ApiResponse(
                     responseCode = "400",
-                    description = "Vai depender do erro que foi analisado pelo @Valid do usuário.",
+                    description = "Vai depender do erro que foi analisado pelo @@RequestParam do nome.",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))}
             ),
 
             @ApiResponse(
                     responseCode = "500",
-                    description = "Vai ser um erro no servidor, sendo alguma condição inesperada no JSON",
+                    description = "Vai ser um erro no servidor, sendo alguma condição inesperada no JSON ou caminho da requisição",
                     content = @Content
 
             )
@@ -211,7 +204,7 @@ public class UsuarioController {
 
             @ApiResponse(
                     responseCode = "404",
-                    description = "Bad request(Não deu para encontrar o usuário pelo id)",
+                    description = "Bad request, vai mostrar isso aqui: []",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)) }),
 
