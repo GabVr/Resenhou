@@ -1,7 +1,6 @@
 package com.example.Resenhou.Usuarios.Service;
 
 import com.example.Resenhou.Exception.DataFormatException;
-import com.example.Resenhou.Exception.EmailNotFoundException;
 import com.example.Resenhou.Exception.NameErrorException;
 import com.example.Resenhou.Exception.UserNotFoundException;
 import com.example.Resenhou.Usuarios.DTO.AtualizarSenhaDTO;
