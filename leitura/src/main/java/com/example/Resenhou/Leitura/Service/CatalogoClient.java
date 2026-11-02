@@ -32,7 +32,13 @@ public class CatalogoClient {
                 .build();
     }
 
+    public record LivroResumo(Integer numeroPaginas) {}
+
     public void validarLivro(Integer livroId) {
+        buscarLivro(livroId);
+    }
+
+    public LivroResumo buscarLivro(Integer livroId) {
         var authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
 
@@ -45,12 +51,22 @@ public class CatalogoClient {
         }
 
         try {
-            catalogo.get()
-                    .uri("/api/livros/{id}", livroId)
-                    .headers(headers ->
-                            headers.setBearerAuth(jwt.getTokenValue()))
-                    .retrieve()
-                    .toBodilessEntity();
+            LivroResumo livro = catalogo.get()
+                .uri("/api/livros/{id}", livroId)
+                .headers(headers ->
+                        headers.setBearerAuth(jwt.getTokenValue()))
+                .retrieve()
+                .body(LivroResumo.class);
+
+        if (livro == null || livro.numeroPaginas() == null
+                || livro.numeroPaginas() <= 0) {
+        throw new ResponseStatusException(
+                HttpStatus.BAD_GATEWAY,
+                "O catálogo retornou um total de páginas inválido"
+        );
+        }
+
+        return livro;
 
         } catch (RestClientResponseException erro) {
             int status = erro.getStatusCode().value();
