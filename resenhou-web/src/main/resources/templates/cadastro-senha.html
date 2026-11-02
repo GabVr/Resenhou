@@ -51,9 +51,15 @@
              role="status">
         </div>
 
-        <form class="cadastro-senha-form"
-              th:action="@{/auth/cadastro}"
-              method="post">
+        <div
+                id="mensagemCadastro"
+                class="cadastro-senha-message"
+                style="display: none;"
+                role="alert"
+                aria-live="polite">
+        </div>
+
+        <form class="cadastro-senha-form" id="formCadastro">
 
             <div class="cadastro-senha-field">
                 <label for="nome">Nome completo</label>
@@ -175,6 +181,6 @@
 
     </section>
 </main>
-
+<script th:src="@{/js/cadastro.js}" defer></script>
 </body>
 </html>

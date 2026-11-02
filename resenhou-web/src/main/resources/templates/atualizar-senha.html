@@ -51,8 +51,28 @@
              th:text="${mensagem}">
         </div>
 
+        <div
+                id="mensagemAtualizacao"
+                class="atualizar-senha-alert"
+                style="display: none;"
+                role="alert"
+                aria-live="polite">
+        </div>
 
-        <form th:action="@{/auth/atualizar-senha}" method="post">
+        <form id="formAtualizarSenha">
+
+
+            <div class="atualizar-senha-form-group">
+                <label for="email">E-mail cadastrado</label>
+
+                <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Digite seu e-mail"
+                        autocomplete="email"
+                        required>
+            </div>
 
             <div class="atualizar-senha-form-group">
                 <label for="senhaAtual">Senha atual</label>
@@ -106,6 +126,6 @@
 
     </section>
 </main>
-
+<script th:src="@{/js/atualizar-senha.js}" defer></script>
 </body>
 </html>

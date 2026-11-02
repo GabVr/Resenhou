@@ -1,6 +1,7 @@
 package com.example.Resenhou.Usuarios.Controller;
 
 
+import com.example.Resenhou.Usuarios.DTO.AtualizarSenhaDTO;
 import com.example.Resenhou.Usuarios.Model.Usuario;
 import com.example.Resenhou.Usuarios.Service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -134,7 +135,7 @@ public class UsuarioController {
 
             @ApiResponse(
                     responseCode = "201",
-                    description = "Vai mostrar o JSON criado",
+                    description = "Vai mostrar o JSON criado e enviar mensagem ao seu email",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Usuario.class)) }),
 
@@ -153,9 +154,17 @@ public class UsuarioController {
 
             )
     })
-    public ResponseEntity<Usuario> salvarUsuario(@RequestBody @Valid Usuario usuario){
-        Usuario novoUsuario = usuarioService.salvarUsuario(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
+    public ResponseEntity<java.util.Map<String, String>> salvarUsuario(
+            @RequestBody @Valid Usuario usuario) {
+
+        usuarioService.cadastrarUsuario(usuario);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                java.util.Map.of(
+                        "mensagem",
+                        "Sua conta foi criada com sucesso! Seja bem-vindo ao Resenhou."
+                )
+        );
     }
 
     @PutMapping("/{id}")
@@ -187,6 +196,20 @@ public class UsuarioController {
     public ResponseEntity<Usuario> atualizarUsuario(@Parameter(description = "o id que vai ser usado na busca para atualizar")@PathVariable Integer id, @RequestBody @Valid Usuario usuario){
         Usuario usuarioAtualizado = usuarioService.atualizarUsuarioPorId(id, usuario);
         return ResponseEntity.ok().body(usuarioAtualizado);
+    }
+
+    @PutMapping("/atualizar-senha")
+    public ResponseEntity<?> atualizarSenha(
+            @RequestBody @Valid AtualizarSenhaDTO dados) {
+
+        usuarioService.atualizarSenha(dados);
+
+        return ResponseEntity.ok().body(
+                java.util.Map.of(
+                        "mensagem",
+                        "Sua senha foi atualizada com sucesso! Enviamos uma confirmação para seu e-mail."
+                )
+        );
     }
 
     @DeleteMapping("/{id}")
