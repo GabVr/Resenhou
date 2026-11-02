@@ -23,6 +23,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByUsernameIgnoreCase(String username);
     @Override
     boolean existsById(Integer id);
-
+    Optional<Usuario> findByEmail(String email);
     void deleteById(int id);
 }

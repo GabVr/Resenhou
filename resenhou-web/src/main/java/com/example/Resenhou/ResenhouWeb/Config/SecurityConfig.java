@@ -20,6 +20,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/",
                                 "/login",
+                                "/atualizar-senha",
+                                "/cadastro-senha",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
