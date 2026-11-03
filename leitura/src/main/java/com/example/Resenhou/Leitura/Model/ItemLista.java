@@ -1,6 +1,6 @@
 package com.example.Resenhou.Leitura.Model;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +39,7 @@ public class ItemLista {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lista_id", nullable = false)
+    @JsonIgnore
     private Lista lista;
 
 

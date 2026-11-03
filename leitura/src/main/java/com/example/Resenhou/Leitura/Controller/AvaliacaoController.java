@@ -1,8 +1,6 @@
 package com.example.Resenhou.Leitura.Controller;
 
 import com.example.Resenhou.Leitura.Model.Avaliacao;
-import com.example.Resenhou.Leitura.Model.Diario;
-import com.example.Resenhou.Leitura.Model.Lista;
 import com.example.Resenhou.Leitura.Service.AvaliacaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

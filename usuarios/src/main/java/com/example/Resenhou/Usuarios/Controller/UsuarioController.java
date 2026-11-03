@@ -56,6 +56,24 @@ public class UsuarioController {
         return usuarioService.encontrarTodosUsuarios();
     }
 
+    public record PerfilResponse(
+        String nome,
+        String username,
+        String biografia
+    ) {}
+
+    @GetMapping("/me")
+    public PerfilResponse meuPerfil(java.security.Principal principal) {
+    Usuario usuario = usuarioService
+            .encontrarPorUsername(principal.getName());
+
+    return new PerfilResponse(
+            usuario.getNome(),
+            usuario.getUsername(),
+            usuario.getBiografia()
+    );
+    }
+
 
     @GetMapping("/{id}")
     @Operation(
@@ -91,6 +109,8 @@ public class UsuarioController {
 
         return ResponseEntity.status(HttpStatus.FOUND).body(usuarioService.encontrarUsuarioId(id));
     }
+
+
 
 
     @GetMapping("/buscar")
@@ -197,6 +217,33 @@ public class UsuarioController {
         Usuario usuarioAtualizado = usuarioService.atualizarUsuarioPorId(id, usuario);
         return ResponseEntity.ok().body(usuarioAtualizado);
     }
+
+    public record PerfilRequest(
+        @jakarta.validation.constraints.NotBlank
+        @jakarta.validation.constraints.Size(max = 150)
+        String nome,
+
+        @jakarta.validation.constraints.Size(max = 255)
+        String biografia
+        ) {}
+
+        @PutMapping("/me")
+        public PerfilResponse atualizarMeuPerfil(
+                java.security.Principal principal,
+                @RequestBody @Valid PerfilRequest dados
+        ) {
+        Usuario usuario = usuarioService.atualizarPerfil(
+                principal.getName(),
+                dados.nome(),
+                dados.biografia()
+        );
+
+        return new PerfilResponse(
+                usuario.getNome(),
+                usuario.getUsername(),
+                usuario.getBiografia()
+        );
+        }
 
     @PutMapping("/atualizar-senha")
     public ResponseEntity<?> atualizarSenha(

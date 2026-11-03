@@ -1,7 +1,6 @@
 package com.example.Resenhou.Usuarios.Service;
 
 import com.example.Resenhou.Exception.DataFormatException;
-import com.example.Resenhou.Exception.EmailNotFoundException;
 import com.example.Resenhou.Exception.NameErrorException;
 import com.example.Resenhou.Exception.UserNotFoundException;
 import com.example.Resenhou.Usuarios.DTO.AtualizarSenhaDTO;
@@ -48,6 +47,11 @@ public class UsuarioService {
         return cpf.replaceAll("\\D", "");
     }
 
+    public Usuario encontrarPorUsername(String username) {
+        return usuarioRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() ->
+                        new UserNotFoundException("Usuário não encontrado"));
+    }
 
     public Usuario salvarUsuario(Usuario usuario) {
 
@@ -105,6 +109,23 @@ public class UsuarioService {
         usuarioAtualizado.setEmail(DadosUsuario.getEmail());
         usuarioAtualizado.setCpf(DadosUsuario.getCpf());
         return salvarUsuario(usuarioAtualizado);
+    }
+
+    public Usuario atualizarPerfil(
+        String username,
+        String nome,
+        String biografia
+    ) {
+        Usuario usuario = encontrarPorUsername(username);
+
+        usuario.setNome(nome.trim());
+        usuario.setBiografia(
+                biografia == null || biografia.isBlank()
+                        ? null
+                        : biografia.trim()
+        );
+
+        return usuarioRepository.save(usuario);
     }
 
     public void atualizarSenha(AtualizarSenhaDTO dados) {

@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"> 
   <title>Resenhou — Diário de leitura</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link th:href="@{/css/style.css}" rel="stylesheet">
-  <link href="../static/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -25,32 +26,28 @@
   </div>
 </header>
 
-<main>
-  <section class="page container">
-    <div class="page-heading heading-row">
-      <div>
-        <span class="eyebrow">MINHA JORNADA</span>
-        <h1>Diário de leitura</h1>
-        <p>Acompanhe cada página e guarde as memórias das suas leituras.</p>
-      </div>
-      <button class="btn btn-moss" data-bs-toggle="modal" data-bs-target="#loginModal">＋ Adicionar leitura</button>
+<main class="container page">
+  <div class="page-heading heading-row">
+    <div>
+      <span class="eyebrow">MINHA JORNADA</span>
+      <h1>Diário de leitura</h1>
+      <p>Acompanhe suas leituras e atualize seu progresso.</p>
     </div>
 
-    <div class="stat-row row g-0">
-      <div class="col-6 col-md-3"><strong>2</strong><span>Lendo agora</span></div>
-      <div class="col-6 col-md-3"><strong>14</strong><span>Livros concluídos</span></div>
-      <div class="col-6 col-md-3"><strong>4.120</strong><span>Páginas este ano</span></div>
-      <div class="col-6 col-md-3"><strong>8</strong><span>Dias em sequência</span></div>
-    </div>
+    <button class="btn btn-moss" type="button" id="novaLeitura">
+      + Adicionar leitura
+    </button>
+  </div>
 
-    <div class="tabs">
-      <button class="active">Lendo agora <span>2</span></button>
-      <button>Concluídos <span>14</span></button>
-      <button>Abandonados <span>1</span></button>
-    </div>
+  <label class="form-label" for="filtroDiario">Exibir</label>
+  <select class="form-select mb-4" id="filtroDiario">
+    <option value="">Todas as leituras</option>
+    <option value="andamento">Em andamento</option>
+    <option value="concluidas">Concluídas</option>
+  </select>
 
-    <div id="diarioLista" class="diary-list"></div>
-  </section>
+  <p id="mensagemDiario" role="status" aria-live="polite"></p>
+  <div id="diarioLista" class="d-grid gap-4"></div>
 </main>
 
 <footer>
@@ -127,8 +124,94 @@
   </div>
 </div>
 
+<div class="modal fade" id="editModal" tabindex="-1"
+     aria-labelledby="tituloLeitura" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content custom-modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="tituloLeitura">Adicionar leitura</h2>
+        <button class="btn-close" type="button"
+                data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+
+      <form id="editForm">
+        <div class="modal-body">
+          <label class="form-label" for="leituraLivro">Livro</label>
+          <select class="form-select mb-3"
+                  id="leituraLivro" name="livroId" required></select>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="leituraInicio">Início</label>
+              <input class="form-control" type="date"
+                     id="leituraInicio" name="dataInicio" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label" for="leituraTermino">Término</label>
+              <input class="form-control" type="date"
+                     id="leituraTermino" name="dataTermino">
+              <small class="text-muted">
+                Deixe vazio enquanto estiver lendo.
+              </small>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="leituraPaginas">
+                Páginas lidas
+              </label>
+              <input class="form-control" type="number"
+                     id="leituraPaginas" name="paginasLidas"
+                     min="0" step="1" value="0" required>
+            </div>
+          </div>
+
+          <label class="form-check mt-3">
+            <input class="form-check-input"
+                   type="checkbox" name="relido">
+            <span class="form-check-label">É uma releitura</span>
+          </label>
+
+          <p class="form-error d-none mt-3" id="erroLeitura"
+             role="alert"></p>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-outline-moss" type="button"
+                  data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-moss" type="submit" id="salvarLeitura">
+            Salvar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="excluirLeituraModal" tabindex="-1"
+     aria-labelledby="tituloExcluirLeitura" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+      <div class="modal-body">
+        <h2 id="tituloExcluirLeitura">Excluir leitura?</h2>
+        <p id="descricaoExcluirLeitura"></p>
+        <p>O livro continuará no catálogo.</p>
+
+        <p class="form-error d-none" id="erroExcluirLeitura"
+           role="alert"></p>
+
+        <div class="d-flex justify-content-end gap-2">
+          <button class="btn btn-outline-moss" type="button"
+                  data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-danger" type="button"
+                  id="confirmarExcluirLeitura">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script th:src="@{/js/dados.js}"></script>
 <script th:src="@{/js/comum.js}"></script>
 <script th:src="@{/js/diario.js}"></script>
 </body>

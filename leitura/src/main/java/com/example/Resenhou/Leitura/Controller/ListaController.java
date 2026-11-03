@@ -1,6 +1,6 @@
 package com.example.Resenhou.Leitura.Controller;
 
-import com.example.Resenhou.Leitura.Model.Diario;
+import com.example.Resenhou.Leitura.Dto.ListaRequest;
 import com.example.Resenhou.Leitura.Model.Lista;
 import com.example.Resenhou.Leitura.Service.ListaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,20 +27,14 @@ public class ListaController {
 
     @GetMapping
     @Operation(
-            summary = "Vai mostrar todas as listas do sistema"
+            summary = "Lista as listas do usuário autenticado"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Vai mostrar todos os JSONs (listados) no sistema",
+                    description = "Retorna as listas do usuário autenticado; retorna [] quando não houver listas",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Lista.class)) }),
-
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "vai retornar apenas: []",
-                    content = @Content
-            ),
 
             @ApiResponse(
                     responseCode = "500",
@@ -61,7 +55,7 @@ public class ListaController {
     @ApiResponses(value = {
 
             @ApiResponse(
-                    responseCode = "302",
+                    responseCode = "200",
                     description = "vai mostrar a lista encontrada(JSON)",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Lista.class)) }),
@@ -86,8 +80,8 @@ public class ListaController {
             )
     })
     public ResponseEntity<Lista> encontrarListaPorID(@Parameter(description = "O id utilizado para a busca")@PathVariable Integer id){
-        return ResponseEntity.status(HttpStatus.FOUND).body(listaService.encontrarListaPorId(id));
-    }
+        return ResponseEntity.ok().body(listaService.visualizarListaPorId(id));
+}
 
 
     @GetMapping("/buscar/usuario")
@@ -96,7 +90,7 @@ public class ListaController {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "302",
+                    responseCode = "200",
                     description = "Vai mostrar a lista (JSON) com base no id do usuário",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Lista.class)) }),
@@ -120,7 +114,7 @@ public class ListaController {
             )
     })
     public ResponseEntity<Lista> listarPorUsuario(@Parameter(description = "O id do usuário utilizado para a busca")@RequestParam Integer usuarioId){
-        return ResponseEntity.status(HttpStatus.FOUND).body(listaService.encontrarListasPorUsuario(usuarioId));
+        return ResponseEntity.ok().body(listaService.encontrarListasPorUsuario(usuarioId));
     }
 
 
@@ -130,7 +124,7 @@ public class ListaController {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "302",
+                    responseCode = "200",
                     description = "Vai mostrar a lista (JSON) com base no id do livro",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Lista.class)) }),
@@ -154,7 +148,7 @@ public class ListaController {
             )
     })
     public ResponseEntity<Lista> listarPorLivro(@Parameter(description = "O id do livro utilizado para a busca")@RequestParam Integer livroId){
-        return ResponseEntity.status(HttpStatus.FOUND).body(listaService.encontrarListaPorLivro(livroId));
+        return ResponseEntity.ok().body(listaService.encontrarListaPorLivro(livroId));
     }
 
 
@@ -164,15 +158,10 @@ public class ListaController {
     )
     @ApiResponses(value = {
 
-            @ApiResponse(responseCode = "302",
-                    description="vai mostrar todas as listas encontradas pelo nome",
+            @ApiResponse(responseCode = "200",
+                    description="Busca listas públicas pelo nome",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Lista.class)) }),
-
-            @ApiResponse(responseCode = "404",
-                    description = "Vai mostrar apenas isso aqui: []",
-                    content = @Content),
-
 
             @ApiResponse(
                     responseCode = "400",
@@ -219,8 +208,8 @@ public class ListaController {
 
             )
     })
-    public ResponseEntity<Lista> salvarLista(@RequestBody @Valid Lista lista){
-        Lista novaLista = listaService.salvarLista(lista);
+    public ResponseEntity<Lista> salvarLista(@RequestBody @Valid ListaRequest dados){
+        Lista novaLista = listaService.salvarLista(dados.toEntity());
         return ResponseEntity.status(HttpStatus.CREATED).body(novaLista);
     }
 
@@ -250,8 +239,8 @@ public class ListaController {
 
             )
     })
-    public ResponseEntity<Lista> atualizarLista(@Parameter(description = "O id utilizado para a busca")@PathVariable Integer id, @RequestBody @Valid Lista lista){
-        Lista listaAtualizada = listaService.atualizarLista(id, lista);
+    public ResponseEntity<Lista> atualizarLista(@Parameter(description = "O id utilizado para a busca")@PathVariable Integer id, @RequestBody @Valid ListaRequest dados){
+        Lista listaAtualizada = listaService.atualizarLista(id, dados.toEntity());
         return ResponseEntity.ok().body(listaAtualizada);
     }
 

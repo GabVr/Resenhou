@@ -1,8 +1,8 @@
 package com.example.Resenhou.Leitura.Controller;
 
 import com.example.Resenhou.Leitura.Model.Diario;
-import com.example.Resenhou.Leitura.Model.Lista;
 import com.example.Resenhou.Leitura.Service.DiarioService;
+import com.example.Resenhou.Leitura.Dto.DiarioRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,20 +27,14 @@ public class DiarioController {
 
     @GetMapping
     @Operation(
-            summary = "Vai mostrar todos os diários cadastrados no sistema"
+            summary = "Lista as leituras do usuário autenticado"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Vai mostrar todos os JSONs (listados) no sistema",
+                    description = "Vai mostrar todos os diários do usuário",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Diario.class)) }),
-
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "vai retornar apenas: []",
-                    content = @Content
-            ),
 
             @ApiResponse(
                     responseCode = "500",
@@ -61,7 +55,7 @@ public class DiarioController {
     @ApiResponses(value = {
 
             @ApiResponse(
-                    responseCode = "302",
+                    responseCode = "200",
                     description = "vai mostrar o diario encontrado(JSON)",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Diario.class)) }),
@@ -86,7 +80,7 @@ public class DiarioController {
             )
     })
     public ResponseEntity<Diario> encontrarDiarioPorID(@Parameter(description = "O id utilizado para a busca")@PathVariable Integer id){
-        return ResponseEntity.status(HttpStatus.FOUND).body(diarioService.encontrarDiarioPorId(id));
+        return ResponseEntity.ok(diarioService.encontrarDiarioPorId(id));
     }
 
 
@@ -96,7 +90,7 @@ public class DiarioController {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "302",
+                    responseCode = "200",
                     description = "Vai mostrar o diario (JSON) com base no id do usuário",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Diario.class)) }),
@@ -119,8 +113,8 @@ public class DiarioController {
                     content = @Content
             )
     })
-    public ResponseEntity<Diario> listarPorUsuario(@Parameter(description = "O id do usuário utilizado para a busca")@RequestParam Integer usuarioId){
-        return ResponseEntity.status(HttpStatus.FOUND).body(diarioService.encontrarDiarioPorUsuario(usuarioId));
+    public ResponseEntity<List<Diario>> listarPorUsuario(@RequestParam Integer usuarioId) {
+        return ResponseEntity.ok(diarioService.encontrarDiarioPorUsuario(usuarioId));
     }
 
 
@@ -130,10 +124,10 @@ public class DiarioController {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "302",
+                    responseCode = "200",
                     description = "Vai mostrar o diario (JSON) com base no id do livro",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Lista.class)) }),
+                            schema = @Schema(implementation = Diario.class)) }),
 
             @ApiResponse(responseCode = "404",
                     description = "Não foi possível encontrar o diario por meio do ID do livro",
@@ -153,8 +147,8 @@ public class DiarioController {
                     content = @Content
             )
     })
-    public ResponseEntity<Diario> listarPorLivro(@Parameter(description = "O id do livro utilizado para a busca")@RequestParam Integer livroId){
-        return ResponseEntity.status(HttpStatus.FOUND).body(diarioService.encontrarDiarioPorLivro(livroId));
+    public ResponseEntity<List<Diario>> listarPorLivro(@RequestParam Integer livroId) {
+    return ResponseEntity.ok(diarioService.encontrarDiarioPorLivro(livroId));
     }
 
 
@@ -184,8 +178,8 @@ public class DiarioController {
 
             )
     })
-    public ResponseEntity<Diario> salvarDiario(@RequestBody @Valid Diario diario){
-        Diario novoDiario = diarioService.salvarDiario(diario);
+    public ResponseEntity<Diario> salvarDiario(@RequestBody @Valid DiarioRequest dados) {
+        Diario novoDiario = diarioService.salvarDiario(dados.toEntity());
         return ResponseEntity.status(HttpStatus.CREATED).body(novoDiario);
     }
 
@@ -215,9 +209,9 @@ public class DiarioController {
 
             )
     })
-    public ResponseEntity<Diario> atualizarDiario(@Parameter(description = "O id utilizado para a busca")@PathVariable Integer id, @RequestBody @Valid Diario diario){
-        Diario diarioAtualizado = diarioService.atualizarDiario(id, diario);
-        return ResponseEntity.ok().body(diarioAtualizado);
+    public ResponseEntity<Diario> atualizarDiario(@PathVariable Integer id, @RequestBody @Valid DiarioRequest dados) {
+        Diario diarioAtualizado =diarioService.atualizarDiario(id, dados.toEntity());
+        return ResponseEntity.ok(diarioAtualizado);
     }
 
 

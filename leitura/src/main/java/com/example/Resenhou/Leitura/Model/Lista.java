@@ -47,8 +47,7 @@ public class Lista {
     @Schema(description = "É o id do usuário", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer usuarioId;
 
-    @Column(name = "livro_id", nullable = false)
-    @NotNull(message = "É importante ter o id do livro")
+    @Column(name = "livro_id", nullable = true)
     @Schema(description = "É o id do livro",  requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer livroId;
 

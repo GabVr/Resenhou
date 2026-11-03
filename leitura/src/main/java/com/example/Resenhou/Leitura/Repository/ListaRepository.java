@@ -26,4 +26,9 @@ public interface ListaRepository extends JpaRepository<Lista, Integer> {
     Optional<Lista> findByLivroId(Integer livroId);
     List<Lista> findByNomeContainingIgnoreCase(String nome);
 
+    List<Lista> findAllByUsuarioId(Integer usuarioId);
+    List<Lista> findByPublicaTrueAndNomeContainingIgnoreCase(String nome);
+
+    Optional<Lista> findByIdAndUsuarioId(Integer id, Integer usuarioId);
+
 }

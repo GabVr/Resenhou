@@ -3,124 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Resenhou — Perfil</title>
+
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+  <title>Resenhou — Meu perfil</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap"
+        rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
   <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 
 <body>
 <header class="topbar sticky-top">
   <div class="container-fluid d-flex align-items-center gap-4 px-lg-5 px-3">
-    <a class="brand text-decoration-none" th:href="@{/index}"><span class="brand-mark">▤</span><span>Resenhou<br><em>plataforma de livros</em></span></a>
+    <a class="brand text-decoration-none" th:href="@{/index}">
+      <span class="brand-mark">▤</span>
+      <span>Resenhou<br><em>plataforma de livros</em></span>
+    </a>
+
     <nav class="main-nav d-none d-lg-flex">
       <a th:href="@{/catalogo}">Catálogo</a>
-      <a th:href="@{/autores}">Autores</a><a th:href="@{/editoras}">Editoras</a>
-      <a th:href="@{/listas}">Listas</a><a th:href="@{/noticias}">Notícias</a>
+      <a th:href="@{/autores}">Autores</a>
+      <a th:href="@{/editoras}">Editoras</a>
+      <a th:href="@{/listas}">Listas</a>
     </nav>
-    <form class="global-search ms-auto" id="globalSearch"><span>⌕</span><input id="globalSearchInput" placeholder="Buscar livros, autores..." aria-label="Buscar livros e autores"></form>
-    <a class="avatar avatar-small text-decoration-none" th:href="@{/perfil}" aria-label="Abrir perfil">MC</a>
+
+    <form class="global-search ms-auto" id="globalSearch">
+      <span>⌕</span>
+      <input id="globalSearchInput"
+             placeholder="Buscar livros, autores..."
+             aria-label="Buscar livros e autores">
+    </form>
+
+    <a class="avatar avatar-small text-decoration-none"
+       th:href="@{/perfil}" aria-label="Meu perfil"
+       id="avatarMenu">?</a>
   </div>
 </header>
 
 <main>
-  <form th:action="@{/logout}" method="post" class="container mt-3">
-    <button type="submit" class="btn btn-outline-moss">Sair da conta</button>
-  </form>
-  <section>
-    <div class="profile-hero">
-      <div class="container profile-inner">
-        <div class="avatar avatar-large">MC</div>
-        <div>
-          <span class="eyebrow">LEITORA DESDE 2022</span>
-          <h1 th:text="${nomeUsuario}">Usuário</h1>
-          <strong>@marinacosta</strong>
-          <p>Leitora de ficção brasileira, café sem açúcar e finais que deixam um pouco de saudade.</p>
-        </div>
-        <button class="btn btn-outline-moss" data-bs-toggle="modal" data-bs-target="#loginModal">Editar perfil</button>
-      </div>
-    </div>
+  <section class="profile-hero">
+    <div class="container profile-inner">
+      <div class="avatar avatar-large" id="avatarPerfil">?</div>
 
-    <div class="page container">
-      <div class="profile-stats row g-0">
-        <div class="col-6 col-md-3"><strong>87</strong><span>Livros lidos</span></div>
-        <div class="col-6 col-md-3"><strong>24</strong><span>Avaliações</span></div>
-        <div class="col-6 col-md-3"><strong>6</strong><span>Listas</span></div>
-        <div class="col-6 col-md-3"><strong>19</strong><span>Quero ler</span></div>
+      <div>
+        <span class="eyebrow">MEU PERFIL</span>
+        <h1 id="nomePerfil">Carregando...</h1>
+        <strong id="usernamePerfil"></strong>
+        <p id="biografiaPerfil"></p>
       </div>
 
-      <div class="tabs mt-4">
-        <button class="active">Atividade recente</button>
-        <a th:href="@{/listas}">Listas</a>
-        <button>Avaliações</button>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-lg-8">
-          <div class="activity-card">
-            <div class="avatar avatar-tiny">MC</div>
-            <div>
-              <p><strong>Marina concluiu uma leitura</strong><small>há 2 dias</small></p>
-              <h3>O Avesso da Pele</h3>
-              <p>★★★★★</p>
-              <blockquote>“Uma narrativa que atravessa a pele e permanece. Daqueles livros que mudam a forma como olhamos para o outro.”</blockquote>
-            </div>
-          </div>
-        </div>
-
-        <aside class="col-lg-4">
-          <div class="profile-aside">
-            <h3>Gêneros mais lidos</h3>
-            <p>Literatura brasileira</p>
-            <div class="genre-bar"><span style="width:92%"></span></div>
-            <p>Ficção contemporânea</p>
-            <div class="genre-bar"><span style="width:78%"></span></div>
-            <p>Romance</p>
-            <div class="genre-bar"><span style="width:64%"></span></div>
-          </div>
-        </aside>
-      </div>
+      <button class="btn btn-outline-moss" type="button"
+              id="editarPerfil" disabled>
+        Editar perfil
+      </button>
     </div>
   </section>
+
+  <section class="container page">
+    <p id="mensagemPerfil" role="status" aria-live="polite"></p>
+
+    <div class="d-flex flex-wrap gap-3">
+      <a class="btn btn-moss" th:href="@{/listas}">Minhas listas</a>
+      <a class="btn btn-outline-moss" th:href="@{/catalogo}">
+        Explorar catálogo
+      </a>
+
+      <form th:action="@{/logout}" method="post">
+        <button class="btn btn-outline-danger" type="submit">
+          Sair da conta
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <section class="container pb-5">
+  <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+    <h2>Minhas listas</h2>
+    <a class="btn btn-outline-moss" th:href="@{/listas}">
+      Gerenciar listas
+    </a>
+  </div>
+
+  <p id="mensagemListasPerfil" role="status" aria-live="polite">
+    Carregando listas...
+  </p>
+
+  <div id="listasPerfil" class="row g-3"></div>
+</section>
 </main>
 
 <footer>
   <div class="container d-flex flex-wrap align-items-center gap-3">
-    <div class="brand footer-brand"><span class="brand-mark">▤</span><span>Resenhou</span></div>
+    <div class="brand footer-brand">
+      <span class="brand-mark">▤</span>
+      <span>Resenhou</span>
+    </div>
     <p>Um lugar para guardar tudo o que a leitura desperta.</p>
     <span>© 2026 Resenhou</span>
   </div>
 </footer>
 
-<nav class="quick-nav" aria-label="Atalhos">
-  <a th:href="@{/diario}">▤ Diário</a>
-  <button data-bs-toggle="modal" data-bs-target="#loginModal">♙ Entrar</button>
-</nav>
-
-<!-- Janela de login / cadastro -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="perfilModal" tabindex="-1"
+     aria-labelledby="tituloEditarPerfil" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content custom-modal">
-      <div class="modal-header border-0">
-        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      <div class="modal-header">
+        <h2 class="modal-title" id="tituloEditarPerfil">Editar perfil</h2>
+        <button class="btn-close" type="button"
+                data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
-      <div class="modal-body text-center px-4 px-md-5 pb-5">
-        <span class="brand-mark login-mark">▤</span>
-        <span class="eyebrow">BEM-VINDO AO RESENHOU</span>
-        <h2>Entre na sua estante</h2>
-        <p>Suas próximas histórias estão esperando.</p>
-        <form id="loginForm">
-          <label class="form-label w-100 text-start">E-mail
-            <input class="form-control mt-2" type="email" placeholder="voce@email.com" required>
+
+      <div class="modal-body">
+        <form id="perfilForm">
+          <label class="form-label" for="perfilNome">Nome</label>
+          <input class="form-control mb-3"
+                 id="perfilNome" name="nome"
+                 maxlength="150" required>
+
+          <label class="form-label" for="perfilBiografia">
+            Biografia
           </label>
-          <label class="form-label w-100 text-start">Senha
-            <input class="form-control mt-2" type="password" placeholder="Sua senha" required>
-          </label>
+          <textarea class="form-control"
+                    id="perfilBiografia" name="biografia"
+                    maxlength="255" rows="4"></textarea>
+
+          <small class="text-muted">Opcional, até 255 caracteres.</small>
+
+          <p class="form-error d-none mt-3" id="erroPerfil"
+             role="alert"></p>
+
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button class="btn btn-outline-moss" type="button"
+                    data-bs-dismiss="modal">Cancelar</button>
+            <button class="btn btn-moss" type="submit"
+                    id="salvarPerfil">Salvar</button>
+          </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/comum.js}"></script>
+<script th:src="@{/js/perfil.js}"></script>
 </body>
 </html>

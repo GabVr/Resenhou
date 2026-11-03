@@ -25,13 +25,12 @@ public class Diario {
    @Schema(description = "É a data de início",  requiredMode = Schema.RequiredMode.REQUIRED)
    private LocalDate dataInicio;
 
-   @Column(name="data_termino", nullable=false)
-   @NotNull
-   @Schema(description = "É a data de termino do diario",  requiredMode = Schema.RequiredMode.REQUIRED)
-   private  LocalDate dataTermino;
+   @Column(name = "data_termino", nullable = true)
+   @Schema(description = "Data de término; vazia enquanto a leitura estiver em andamento")
+   private LocalDate dataTermino;
 
    @Column(name="paginas_lidas", nullable=false)
-   @NotNull
+   @jakarta.validation.constraints.PositiveOrZero
    @Schema(description = "É a quantidade de paginas lidas no diario", requiredMode = Schema.RequiredMode.REQUIRED)
    private  int paginasLidas;
 

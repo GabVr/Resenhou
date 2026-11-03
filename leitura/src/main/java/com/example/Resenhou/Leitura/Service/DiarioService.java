@@ -1,10 +1,12 @@
 package com.example.Resenhou.Leitura.Service;
 
-import com.example.Resenhou.Exception.DataFormatException;
 import com.example.Resenhou.Exception.ResourceNotFound;
-import com.example.Resenhou.Exception.UserNotFoundException;
+import com.example.Resenhou.Leitura.Config.UsuarioAtual;
 import com.example.Resenhou.Leitura.Model.Diario;
 import com.example.Resenhou.Leitura.Repository.DiarioRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -17,53 +19,118 @@ public class DiarioService {
     @Autowired
     private DiarioRepository diarioRepository;
 
-    public static void validarDataInicio(LocalDate dataInicio){
-        if(dataInicio.isAfter(LocalDate.now())) {
-            throw new DataFormatException("Não pode ser posterior a data atual");
+    @Autowired
+    private UsuarioAtual usuarioAtual;
+
+    @Autowired
+    private CatalogoClient catalogoClient;
+
+    public static void validarDataInicio(LocalDate dataInicio) {
+        if (dataInicio == null || dataInicio.isAfter(LocalDate.now())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Informe uma data de início válida, até a data atual"
+            );
         }
     }
 
-    public static void validarDataFinal(LocalDate dataInicio, LocalDate dataFinal){
-        if(dataFinal.isAfter(LocalDate.now())) {
-            throw new DataFormatException("Não pode ser posterior a data atual");
+    public static void validarDataFinal(
+            LocalDate dataInicio,
+            LocalDate dataFinal
+    ) {
+        if (dataFinal == null) {
+            return; // Leitura em andamento.
         }
 
-        if(dataFinal.isBefore(dataInicio)) {
-            throw new DataFormatException("Não pode ser anterior a data de início");
+        if (dataFinal.isAfter(LocalDate.now()) ||
+                dataFinal.isBefore(dataInicio)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "O término deve estar entre a data de início e a data atual"
+            );
         }
     }
 
-    public Diario salvarDiario(Diario diario){
+    private void validarLeitura(Diario diario) {
         validarDataInicio(diario.getDataInicio());
         validarDataFinal(diario.getDataInicio(), diario.getDataTermino());
+
+        if (diario.getPaginasLidas() < 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "As páginas lidas não podem ser negativas"
+            );
+        }
+
+        if (diario.getLivroId() == null || diario.getLivroId() <= 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Informe um livro válido"
+            );
+        }
+
+        var livro = catalogoClient.buscarLivro(diario.getLivroId());
+        int totalPaginas = livro.numeroPaginas();
+
+        if (diario.getDataTermino() != null) {
+            diario.setPaginasLidas(totalPaginas);
+        } else if (diario.getPaginasLidas() > totalPaginas) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "As páginas lidas não podem ultrapassar o total do livro"
+            );
+        }
+    }
+
+    @Transactional
+    public Diario salvarDiario(Diario diario) {
+        diario.setId(null);
+        diario.setUsuarioId(usuarioAtual.getId());
+
+        validarLeitura(diario);
+
         return diarioRepository.save(diario);
     }
 
-    public List<Diario> encontrarTodosDiarios(){
-        return diarioRepository.findAll();
+    public List<Diario> encontrarTodosDiarios() {
+        return diarioRepository.findAllByUsuarioId(usuarioAtual.getId());
     }
 
-    public Diario encontrarDiarioPorUsuario(Integer  usuarioId){
-        return diarioRepository.findByUsuarioId(usuarioId).orElseThrow(() -> new UserNotFoundException("Não foi possível encontrar nenhum diário por meio do ID do usuário."));
+    public List<Diario> encontrarDiarioPorUsuario(Integer usuarioId) {
+        if (!usuarioAtual.getId().equals(usuarioId)) {
+            throw new ResourceNotFound("Leituras não encontradas");
+        }
+
+        return encontrarTodosDiarios();
     }
 
-    public Diario encontrarDiarioPorId(Integer id){
-        return diarioRepository.findById(id).orElseThrow( () -> new ResourceNotFound("Não foi possível encontrar o diário por meio do ID"));
+    public Diario encontrarDiarioPorId(Integer id) {
+        return diarioRepository
+                .findByIdAndUsuarioId(id, usuarioAtual.getId())
+                .orElseThrow(() ->
+                        new ResourceNotFound("Leitura não encontrada"));
     }
 
-    public Diario encontrarDiarioPorLivro(Integer livroId) {
-        return diarioRepository.findByLivroId(livroId).orElseThrow(() -> new ResourceNotFound("Não foi possível encontrar diário por meio do ID do livro."));
+    public List<Diario> encontrarDiarioPorLivro(Integer livroId) {
+        return diarioRepository.findAllByUsuarioIdAndLivroId(
+                usuarioAtual.getId(),
+                livroId
+        );
     }
 
-    public Diario atualizarDiario(Integer idDiario, Diario diario){
-        Diario diarioAtualizado = encontrarDiarioPorId(idDiario);
-        diarioAtualizado.setLivroId(diario.getLivroId());
-        diarioAtualizado.setUsuarioId(diario.getUsuarioId());
-        diarioAtualizado.setRelido(diario.isRelido());
-        diarioAtualizado.setDataInicio(diario.getDataInicio());
-        diarioAtualizado.setDataTermino(diario.getDataTermino());
-        diarioAtualizado.setPaginasLidas(diario.getPaginasLidas());
-        return salvarDiario(diarioAtualizado);
+    @Transactional
+    public Diario atualizarDiario(Integer idDiario, Diario dados) {
+        Diario diario = encontrarDiarioPorId(idDiario);
+
+        validarLeitura(dados);
+
+        diario.setLivroId(dados.getLivroId());
+        diario.setRelido(dados.isRelido());
+        diario.setDataInicio(dados.getDataInicio());
+        diario.setDataTermino(dados.getDataTermino());
+        diario.setPaginasLidas(dados.getPaginasLidas());
+
+        return diarioRepository.save(diario);
     }
 
     public void deletarDiarioPorId(int idDiario){

@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import com.example.Resenhou.Usuarios.Config.UserAuthenticated;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -28,14 +29,18 @@ public class JwtService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
 
+        UserAuthenticated userAuthenticated = (UserAuthenticated) authentication.getPrincipal();
+
         var claims = JwtClaimsSet.builder()
                 .issuer("spring-security-jwt")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
                 .subject(authentication.getName())
                 .claim("scope", scopes)
+                .claim("usuarioId", userAuthenticated.getId())
                 .build();
 
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
+
 }
