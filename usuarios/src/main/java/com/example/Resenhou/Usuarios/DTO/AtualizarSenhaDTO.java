@@ -1,7 +1,6 @@
 
-package com.example.Resenhou.Usuarios.DTO;
+package com.example.Resenhou.Usuarios.Dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -10,7 +9,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Vai ser usado para a atualização de senha do usuário")
 public class AtualizarSenhaDTO {
 
     @NotBlank(message = "O e-mail deve ser informado.")

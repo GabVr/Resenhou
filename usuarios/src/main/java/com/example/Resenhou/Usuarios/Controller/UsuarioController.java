@@ -1,7 +1,7 @@
 package com.example.Resenhou.Usuarios.Controller;
 
 
-import com.example.Resenhou.Usuarios.DTO.AtualizarSenhaDTO;
+import com.example.Resenhou.Usuarios.Dto.AtualizarSenhaDTO;
 import com.example.Resenhou.Usuarios.Model.Usuario;
 import com.example.Resenhou.Usuarios.Service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;

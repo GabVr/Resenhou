@@ -3,7 +3,7 @@ package com.example.Resenhou.Usuarios.Service;
 import com.example.Resenhou.Exception.DataFormatException;
 import com.example.Resenhou.Exception.NameErrorException;
 import com.example.Resenhou.Exception.UserNotFoundException;
-import com.example.Resenhou.Usuarios.DTO.AtualizarSenhaDTO;
+import com.example.Resenhou.Usuarios.Dto.AtualizarSenhaDTO;
 import com.example.Resenhou.Usuarios.Model.Usuario;
 import com.example.Resenhou.Usuarios.Repository.UsuarioRepository;
 import com.resend.core.exception.ResendException;
