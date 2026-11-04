@@ -130,9 +130,6 @@ Como as chaves são lidas via `classpath:`, coloque-as em `src/main/resources` *
 | catalogo | `app.pub` |
 | leitura | `app.pub` |
 
-<!-- TODO: confirme em quais serviços cada chave deve ficar -->
-
-> 🔒 Adicione `app.key`, `.env` e `.env.properties` ao `.gitignore`. **A chave privada nunca deve ser versionada.** Como ela é copiada para dentro da imagem do serviço, não publique essas imagens em registries públicos.
 
 **4. Suba todos os serviços**
 
